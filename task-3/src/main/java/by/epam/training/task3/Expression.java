@@ -12,6 +12,7 @@ public class Expression {
     private final static String NUMBERS_SPLIT_REGEX = "[/*+\\-]";
     private final static String HIGH_PRIORITY_REGEX = "(\\d+\\.\\d+|\\d+)[*/](\\d+\\.\\d+|\\d+)";
     private final static String LOW_PRIORITY_REGEX = "(\\d+\\.\\d+|\\d+)[+-](\\d+\\.\\d+|\\d+)";
+    private final static String INCORRECT_OPERATORS = "\\+|\\+\\*|-\\*|\\*-|\\*{2,}|/{2,}|\\*/|/\\*";
     private static int ID_GENERATOR = 1;
 
     private int id;
@@ -30,10 +31,17 @@ public class Expression {
         stepsMap.put(steps, defaultExpression);
         try {
             this.result = solveExpression(defaultExpression);
-        }catch (NumberFormatException ex){
+        }catch (NumberFormatException | UnsupportedOperationException ex){
             correct = false;
         }
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDefaultExpression() {
@@ -129,15 +137,36 @@ public class Expression {
     }
 
     private String rearrangeSubExpression(String expression, String regexp){
+        expression = doubleOperatorProtection(expression);
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(expression);
         if (matcher.find()){
             return expression.replace(expression.substring(matcher.start(), matcher.end()),
                     String.valueOf(calcOperation(matcher.group())));
         }else {
-            throw new NumberFormatException();
+            throw new UnsupportedOperationException();
         }
     }
+
+    private String doubleOperatorProtection(String expression){
+        if (expression.matches(INCORRECT_OPERATORS)){
+            throw new UnsupportedOperationException();
+        }else if (expression.contains(DOUBLE_MINUS)){
+            expression = expression.replace(DOUBLE_MINUS, PLUS);
+        }else if (expression.contains(DOUBLE_PLUS)){
+            expression = expression.replace(DOUBLE_PLUS, PLUS);
+        }else if (expression.contains(PLUS_MINUS)){
+            expression = expression.replace(PLUS_MINUS, MINUS);
+        }else if (expression.contains(MINUS_PLUS)){
+            expression = expression.replace(MINUS_PLUS, MINUS);
+        }
+        if (expression.contains(DOUBLE_MINUS) || expression.contains(DOUBLE_PLUS)
+                || expression.contains(PLUS_MINUS) || expression.contains(MINUS_PLUS)){
+            expression = doubleOperatorProtection(expression);
+        }
+        return expression;
+    }
+
     @Override
     public String toString() {
         if (correct){
@@ -149,6 +178,15 @@ public class Expression {
 
         }else {
             return String.format("%d. Incorrect expression", id);
+        }
+    }
+
+    public void printStep(int step){
+        String stepValue = stepsMap.get(step);
+        if (stepValue != null){
+            System.out.println(id + ". " + stepValue);
+        }else {
+            System.out.println(id + ". Incorrect value");
         }
     }
 }

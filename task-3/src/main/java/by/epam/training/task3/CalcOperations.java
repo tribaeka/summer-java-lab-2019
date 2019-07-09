@@ -9,6 +9,11 @@ public class CalcOperations {
     public final static String MULTIPLICATION = "*";
     public final static String DIVISION = "/";
 
+    public final static String DOUBLE_PLUS = "++";
+    public final static String DOUBLE_MINUS = "--";
+    public final static String PLUS_MINUS = "+-";
+    public final static String MINUS_PLUS = "-+";
+
     private enum TypeOfOperations{
         ADDITION{
             double doOperation(String[] arguments){
