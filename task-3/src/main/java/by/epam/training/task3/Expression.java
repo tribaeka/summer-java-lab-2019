@@ -1,14 +1,13 @@
 package by.epam.training.task3;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static by.epam.training.task3.CalcOperations.*;
 
 public class Expression {
-    private final static String SOLVING_SUPPORT_REGEX = "(\\d+\\.\\d+|\\d+)";
+    private final static String SOLVING_SUPPORT_REGEX = "(-?\\d+\\.\\d+|-?\\d+)";
     private final static String NUMBERS_SPLIT_REGEX = "[/*+\\-]";
     private final static String HIGH_PRIORITY_REGEX = "(\\d+\\.\\d+|\\d+)[*/](\\d+\\.\\d+|\\d+)";
     private final static String LOW_PRIORITY_REGEX = "(\\d+\\.\\d+|\\d+)[+-](\\d+\\.\\d+|\\d+)";
@@ -30,7 +29,12 @@ public class Expression {
         this.defaultExpression = line.replaceAll("\\s+","");
         stepsMap.put(steps, defaultExpression);
         try {
-            this.result = solveExpression(defaultExpression);
+            if (hasNoValidSymbols(defaultExpression)){
+                throw new UnsupportedOperationException();
+            }else {
+                this.result = solveExpression(defaultExpression);
+            }
+
         }catch (NumberFormatException | UnsupportedOperationException ex){
             correct = false;
         }
@@ -50,6 +54,16 @@ public class Expression {
 
     public void setDefaultExpression(String defaultExpression) {
         this.defaultExpression = defaultExpression;
+    }
+
+    private boolean hasNoValidSymbols(String expression){
+        Set<String> noValidSet = new HashSet<>(Arrays.asList("^", "$", "!", "@", "#", "%", "&", "|", "\\", "/0"));
+        for (String symbol : noValidSet){
+            if (expression.contains(symbol)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public double getResult() {
@@ -91,9 +105,12 @@ public class Expression {
 
     public double solveExpression(String expression) {
         while (!expression.matches(SOLVING_SUPPORT_REGEX)){
-            expression = calcBrackets(expression);
-            expression = highPrioritySubExpression(expression);
-            expression = lowPrioritySubExpression(expression);
+            if (isContainsBrackets(expression)){
+                expression = calcBrackets(expression);
+            }else {
+                expression = highPrioritySubExpression(expression);
+                expression = lowPrioritySubExpression(expression);
+            }
         }
         return Double.parseDouble(expression);
     }
@@ -112,14 +129,37 @@ public class Expression {
     }
 
     private String calcBrackets(String expression){
-        if (expression.contains("(") && expression.contains(")")){
-            int startIndex = expression.indexOf("(");
-            int endIndex = expression.indexOf(")");
-            String priorityExpr = expression.substring(startIndex + 1, endIndex);
-            return expression.replace(expression.substring(startIndex, endIndex + 1),
-                    String.valueOf(calcOperation(priorityExpr)));
+        if (isContainsBrackets(expression)){
+            if (expression.replaceAll("\\)", "").length()
+                    != expression.replaceAll("\\(", "").length()){
+                throw new UnsupportedOperationException();
+            }else {
+                int startIndex = expression.indexOf("(");
+                int endIndex = getLastIndexOfCharRetitions(expression, ")");
+                String calcBracketsPart = expression.substring(startIndex, endIndex).replaceAll("[()]", "");
+                return expression.replace(expression.substring(startIndex, endIndex+1),
+                        String.valueOf(solveExpression(calcBracketsPart)));
+            }
         }
         return expression;
+    }
+
+    private int getLastIndexOfCharRetitions(String expression, String item){
+        int index = expression.indexOf(item);
+        if (index != expression.length() - 1){
+            while (expression.charAt(index)
+                    == expression.charAt(index + 1)){
+                index++;
+                if (index == expression.length() - 1){
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
+    private boolean isContainsBrackets(String expression){
+        return expression.contains("(") && expression.contains(")");
     }
 
     private String highPrioritySubExpression(String expression) {
