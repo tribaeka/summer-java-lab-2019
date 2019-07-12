@@ -40,6 +40,14 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
         }
     }
 
+    public Comparator<E> getComparator() {
+        return comparator;
+    }
+
+    public void setComparator(Comparator<E> comparator) {
+        this.comparator = comparator;
+    }
+
     public int size() {
         return size;
     }
@@ -136,19 +144,63 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
     }
 
     public void filterMatches(List<E> eList) {
-
+        E[] matchedItems = (E[]) new Object[size];
+        int matchedIterator = 0;
+        Iterator<E> subIterator = eList.getIterator();
+        while (subIterator.hasNext()){
+            Iterator<E> thisIterator = getIterator();
+            E subItem = subIterator.getNext();
+            while (thisIterator.hasNext()) {
+                E item = thisIterator.getNext();
+                if (subItem.equals(item)) {
+                    matchedItems[matchedIterator] = item;
+                    matchedIterator++;
+                }
+            }
+        }
+        this.items = matchedItems;
+        this.trim();
     }
 
     public void filterMatches(E[] eArray) {
-
+        E[] matchedItems = (E[]) new Object[size];
+        int matchedIterator = 0;
+        for (E subItem : eArray) {
+            Iterator<E> thisIterator = getIterator();
+            while (thisIterator.hasNext()) {
+                E item = thisIterator.getNext();
+                if (subItem.equals(item)) {
+                    matchedItems[matchedIterator] = item;
+                    matchedIterator++;
+                }
+            }
+        }
+        this.items = matchedItems;
+        this.trim();
     }
 
     public void filterDifference(List<E> eList) {
-
+        Iterator<E> inIterator = eList.getIterator();
+        while (inIterator.hasNext()){
+            Iterator<E> mainIterator = getIterator();
+            E item = inIterator.getNext();
+            while (mainIterator.hasNext()){
+                if (item.equals(mainIterator.getNext())){
+                    mainIterator.remove();
+                }
+            }
+        }
     }
 
     public void filterDifference(E[] eArray) {
-
+        for (E e : eArray) {
+            Iterator<E> mainIterator = getIterator();
+            while (mainIterator.hasNext()) {
+                if (e.equals(mainIterator.getNext())) {
+                    mainIterator.remove();
+                }
+            }
+        }
     }
 
     public int find(Object o) {
@@ -175,19 +227,41 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
 
     private class ArrayListIterator implements Iterator<E> {
 
-        private int current = 0;
+        private int cursor = 0;
+        private int lastRet = -1;
 
         public boolean hasNext() {
-            return current < size();
+            return cursor < size();
         }
 
         public E getNext() {
-            if (!hasNext()) throw new NoSuchElementException();
-            return items[current++];
+            //System.out.println("getNext->");
+            try {
+                int i = cursor;
+                E next = get(i);
+                lastRet = i;
+                //System.out.println(lastRet+"in get");
+                cursor = i + 1;
+                return next;
+            } catch (IndexOutOfBoundsException e) {
+                throw new NoSuchElementException();
+            }
         }
 
         public void remove() {
-            ArrayList.this.remove(--current);
+            //System.out.println("remove->");
+            //System.out.println(lastRet+" in remove");
+            if (lastRet < 0)
+                throw new IllegalStateException();
+            //System.out.println("removing "+lastRet);
+                ArrayList.this.remove(lastRet);
+            //System.out.println("before if block "+lastRet+"_"+cursor);
+                if (lastRet < cursor){
+                    cursor--;
+                    //System.out.println("cursor after if block "+cursor);
+                }
+                lastRet = -1;
+
         }
         //TODO
         public void addBefore(E e) {
@@ -198,7 +272,7 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
             add(find(e) + 1, e);
         }
         public void reset(){
-            current = 0;
+            cursor = 0;
         }
     }
 }

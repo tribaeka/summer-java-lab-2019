@@ -4,8 +4,6 @@ import by.epam.training.task4.library.implementations.ArrayList;
 import by.epam.training.task4.library.interfaces.Iterator;
 import by.epam.training.task4.library.interfaces.List;
 
-import java.util.Comparator;
-
 public class LibRunner {
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<Integer>(new IntegerComparator());
@@ -27,13 +25,16 @@ public class LibRunner {
             }
         }
         iterator.reset();
-        list.addAll(new Integer[]{4,5});
-        list.addAll(new ArrayList<Integer>(new IntegerComparator(), new Integer[]{6,7}));
+        Integer[] integers = new Integer[]{4,5};
+        list.addAll(integers);
+        List<Integer> integerList = new ArrayList<Integer>(new IntegerComparator(), new Integer[]{6,7});
+        list.addAll(integerList);
         list.set(0, 0);
+        list.filterMatches(integerList);
         while (iterator.hasNext()){
             System.out.println(iterator.getNext());
         }
         Object[] someArray = list.toArray();
-        System.out.println(someArray.length);
+        System.out.println("toArray lenght="+someArray.length);
     }
 }
