@@ -14,7 +14,7 @@ public interface List<E> {
     E get(int index);
     int size();
     <T> T[] toArray(T[] eArray);
-    <T> T[] toArray();
+    Object[] toArray();
     void trim();
     void filterMatches(List<E> eList);
     void filterMatches(E[] eArray);

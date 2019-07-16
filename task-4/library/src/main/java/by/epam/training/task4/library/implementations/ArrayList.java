@@ -1,5 +1,6 @@
 package by.epam.training.task4.library.implementations;
 
+import by.epam.training.task4.library.ComparableComparator;
 import by.epam.training.task4.library.interfaces.Iterable;
 import by.epam.training.task4.library.interfaces.Iterator;
 import by.epam.training.task4.library.interfaces.List;
@@ -13,7 +14,7 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
     private int size;
     private E[] items;
     private int maxSize = 8;
-    private Comparator<E> comparator;
+    private Comparator<E> comparator = (Comparator<E>) Comparator.naturalOrder();
     public ArrayList(Comparator<E> comparator) {
         clear();
         this.comparator = comparator;
@@ -129,8 +130,8 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
         return eArray;
     }
 
-    public <T> T[] toArray() {
-        return (T[]) Arrays.copyOf(items, size);
+    public Object[] toArray() {
+        return Arrays.copyOf(items, size);
     }
 
 
