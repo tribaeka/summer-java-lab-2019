@@ -21,13 +21,13 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
         }
     }
 
-    private int size = 0;
+    private int size;
 
     private Node<E> first;
 
     private Node<E> last;
 
-    private int maxSize;
+    private int maxSize = 8;
 
     private Comparator<E> comparator = (Comparator<E>) Comparator.naturalOrder();;
 
@@ -36,6 +36,11 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
 
     public LinkedList(Comparator<E> comparator) {
         this.comparator = comparator;
+        this.size = 0;
+    }
+    public LinkedList(Comparator<E> comparator, E[] eArray){
+        this(comparator);
+        addAll(eArray);
     }
 
     private void linkFirst(E e) {
@@ -155,6 +160,24 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
         clear();
         Arrays.sort(eArray, comparator);
         addAll(eArray);
+    }
+    public void sort(Comparator<E> eComparator){
+        E[] eArray = (E[]) toArray();
+        clear();
+        Arrays.sort(eArray, eComparator);
+        addAll(eArray);
+    }
+    public E removeLast() {
+        final Node<E> l = last;
+        if (l == null)
+            throw new NoSuchElementException();
+        return unlinkLast(l);
+    }
+    public E getLast() {
+        final Node<E> l = last;
+        if (l == null)
+            throw new NoSuchElementException();
+        return l.item;
     }
     @Override
     public int add(E e) {
@@ -306,28 +329,44 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public void filterMatches(List<E> eList) {
+        E[] matchedItems = (E[]) new Object[size];
+        int matchedIterator = 0;
         Iterator<E> subIterator = eList.getIterator();
         while (subIterator.hasNext()){
             E subItem = subIterator.getNext();
             Iterator<E> thisIterator = getIterator();
             while (thisIterator.hasNext()){
-                if (!thisIterator.getNext().equals(subItem)){
-                    thisIterator.remove();
+                E item = thisIterator.getNext();
+                if (subItem.equals(item)) {
+                    matchedItems[matchedIterator] = item;
+                    matchedIterator++;
                 }
             }
         }
+        for (int i = 0; i < size; i++){
+            set(i, matchedItems[i]);
+        }
+        trim();
     }
 
     @Override
     public void filterMatches(E[] eArray) {
+        E[] matchedItems = (E[]) new Object[size];
+        int matchedIterator = 0;
         for (E subItem : eArray){
             Iterator<E> thisIterator = getIterator();
             while (thisIterator.hasNext()){
-                if (!thisIterator.getNext().equals(subItem)){
-                    thisIterator.remove();
+                E item = thisIterator.getNext();
+                if (subItem.equals(item)) {
+                    matchedItems[matchedIterator] = item;
+                    matchedIterator++;
                 }
             }
         }
+        for (int i = 0; i < size; i++){
+            set(i, matchedItems[i]);
+        }
+        trim();
     }
 
     @Override
