@@ -1,12 +1,13 @@
 package by.epam.training.task4.library.implementations;
 
+import by.epam.training.task4.library.interfaces.Iterable;
 import by.epam.training.task4.library.interfaces.Iterator;
 import by.epam.training.task4.library.interfaces.Stack;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
-public class ArrayStack<E> implements Stack<E> {
+//TODO add iterator
+public class ArrayStack<E> implements Stack<E>, Iterable<E> {
     private int size;
     private E[] stackArray;
     private int top;

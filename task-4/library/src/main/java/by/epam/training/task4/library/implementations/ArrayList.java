@@ -236,12 +236,10 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
         }
 
         public E getNext() {
-            //System.out.println("getNext->");
             try {
                 int i = cursor;
                 E next = get(i);
                 lastRet = i;
-                //System.out.println(lastRet+"in get");
                 cursor = i + 1;
                 return next;
             } catch (IndexOutOfBoundsException e) {
@@ -250,16 +248,11 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
         }
 
         public void remove() {
-            //System.out.println("remove->");
-            //System.out.println(lastRet+" in remove");
             if (lastRet < 0)
                 throw new IllegalStateException();
-            //System.out.println("removing "+lastRet);
                 ArrayList.this.remove(lastRet);
-            //System.out.println("before if block "+lastRet+"_"+cursor);
                 if (lastRet < cursor){
                     cursor--;
-                    //System.out.println("cursor after if block "+cursor);
                 }
                 lastRet = -1;
 
