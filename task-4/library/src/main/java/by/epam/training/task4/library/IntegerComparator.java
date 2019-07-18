@@ -5,6 +5,9 @@ import java.util.Comparator;
 public class IntegerComparator implements Comparator<Integer> {
     @Override
     public int compare(Integer o1, Integer o2) {
+        if (o1 == null && o2 == null){
+            return -1;
+        }
         if (o1 == null){
             return o2;
         }

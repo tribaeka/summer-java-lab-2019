@@ -216,6 +216,7 @@ public class LinkedQueue<E> implements Queue<E> {
     public Iterator getIterator() {
         return new LinkedQueueIterator(this);
     }
+
     public boolean contains(E e) {
         if (this.front == null) {
             return false;

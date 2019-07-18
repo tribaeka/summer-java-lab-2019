@@ -6,7 +6,8 @@ import by.epam.training.task4.library.interfaces.Stack;
 
 import java.util.Arrays;
 import java.util.Comparator;
-//TODO add iterator
+import java.util.NoSuchElementException;
+
 public class ArrayStack<E> implements Stack<E>, Iterable<E> {
     private int size;
     private E[] stackArray;
@@ -54,10 +55,7 @@ public class ArrayStack<E> implements Stack<E>, Iterable<E> {
         grow(size + 1);
     }
 
-    @Override
-    public Iterator getIterator() {
-        return null;
-    }
+
 
     @Override
     public void pushAll(Stack<E> eStack) {
@@ -77,8 +75,10 @@ public class ArrayStack<E> implements Stack<E>, Iterable<E> {
     @Override
     public int search(E e) {
         for (int i = 0; i < stackArray.length; i++){
-            if (stackArray[i].equals(e)){
-                return i;
+            if (stackArray[i] != null){
+                if (stackArray[i].equals(e)){
+                    return i;
+                }
             }
         }
         return -1;
@@ -103,5 +103,53 @@ public class ArrayStack<E> implements Stack<E>, Iterable<E> {
     @Override
     public void sort(Comparator<E> comparator) {
         Arrays.sort(stackArray, comparator);
+    }
+
+    @Override
+    public Iterator getIterator() {
+        return new ArrayStackIterator(this);
+    }
+
+    private class ArrayStackIterator implements Iterator<E> {
+        private int cursor;
+        private ArrayStack arrayStack;
+        private ArrayStack restoreStack;
+        public ArrayStackIterator(ArrayStack arrayStack) {
+            this.cursor = arrayStack.top;
+            this.arrayStack = arrayStack;
+            this.restoreStack = arrayStack;
+
+        }
+
+        public boolean hasNext() {
+            return cursor >= 0;
+        }
+
+        public E getNext() {
+            cursor--;
+            return pop();
+        }
+
+        public void remove() {
+        }
+
+        public void addBefore(E e) {
+            if (isFull()){
+                grow();
+            }
+            E tmpE = stackArray[top];
+            stackArray[top] = e;
+            top++; cursor++;
+            stackArray[top] = tmpE;
+
+        }
+
+        public void addAfter(E e) {
+            push(e);
+        }
+        public void reset(){
+            cursor = restoreStack.top;
+            arrayStack = restoreStack;
+        }
     }
 }

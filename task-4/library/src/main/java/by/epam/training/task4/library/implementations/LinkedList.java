@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 public class LinkedList<E> implements List<E>, Iterable<E> {
-    private static class Node<E> {
+    public static class Node<E> {
         E item;
         Node<E> next;
         Node<E> prev;
@@ -29,7 +29,8 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
 
     private int maxSize = 8;
 
-    private Comparator<E> comparator = (Comparator<E>) Comparator.naturalOrder();;
+    private Comparator<E> comparator = (Comparator<E>) Comparator.naturalOrder();
+    private boolean sortTrigger = true;
 
     public LinkedList() {
     }
@@ -37,6 +38,11 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
     public LinkedList(Comparator<E> comparator) {
         this.comparator = comparator;
         this.size = 0;
+    }
+    public LinkedList(boolean sortTrigger) {
+        this.comparator = null;
+        this.size = 0;
+        this.sortTrigger = sortTrigger;
     }
     public LinkedList(Comparator<E> comparator, E[] eArray){
         this(comparator);
@@ -94,7 +100,6 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
 
     private E unlinkFirst(Node<E> f) {
         chekMaxSize();
-        // assert f == first && f != null;
         final E element = f.item;
         final Node<E> next = f.next;
         f.item = null;
@@ -111,11 +116,10 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
 
     private E unlinkLast(Node<E> l) {
         chekMaxSize();
-        // assert l == last && l != null;
         final E element = l.item;
         final Node<E> prev = l.prev;
         l.item = null;
-        l.prev = null; // help GC
+        l.prev = null;
         last = prev;
         if (prev == null)
             first = null;
@@ -155,12 +159,32 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
     public Iterator<E> getIterator() {
         return new ListItr(find(first.item));
     }
+
+    public Object[] toArray() {
+        Object[] result = new Object[size];
+        int i = 0;
+        for (Node<E> x = first; x != null; x = x.next)
+            result[i++] = x.item;
+        return result;
+    }
+
+    @Override
+    public <T> T[] toArray(T[] eArray) {
+        if (eArray.length < size)
+            return (T[]) Arrays.copyOf(toArray(), size, eArray.getClass());
+        System.arraycopy(toArray(), 0, eArray, 0, size);
+        if (eArray.length > size)
+            eArray[size] = null;
+        return eArray;
+    }
+
     private void sort(){
         E[] eArray = (E[]) toArray();
         clear();
         Arrays.sort(eArray, comparator);
         addAll(eArray);
     }
+
     public void sort(Comparator<E> eComparator){
         E[] eArray = (E[]) toArray();
         clear();
@@ -184,7 +208,11 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
     }
     @Override
     public int add(E e) {
-        return linkLast(e);
+        int index =linkLast(e);
+        if (sortTrigger){
+            sort();
+        }
+        return index;
     }
 
     @Override
@@ -300,24 +328,6 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
     @Override
     public int size() {
         return size;
-    }
-
-    public Object[] toArray() {
-        Object[] result = new Object[size];
-        int i = 0;
-        for (Node<E> x = first; x != null; x = x.next)
-            result[i++] = x.item;
-        return result;
-    }
-
-    @Override
-    public <T> T[] toArray(T[] eArray) {
-        if (eArray.length < size)
-            return (T[]) Arrays.copyOf(toArray(), size, eArray.getClass());
-        System.arraycopy(toArray(), 0, eArray, 0, size);
-        if (eArray.length > size)
-            eArray[size] = null;
-        return eArray;
     }
 
     @Override

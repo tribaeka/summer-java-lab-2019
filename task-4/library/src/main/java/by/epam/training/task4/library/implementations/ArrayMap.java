@@ -8,9 +8,9 @@ import by.epam.training.task4.library.interfaces.Map;
 import java.util.NoSuchElementException;
 
 public class ArrayMap<K, V> implements Map<K, V> {
-    public K[] keys;
-    public V[] values;
-    public int size;
+    private K[] keys;
+    private V[] values;
+    private int size;
 
     public ArrayMap (int capacity) {
         keys = (K[])new Object[capacity];
@@ -160,7 +160,7 @@ public class ArrayMap<K, V> implements Map<K, V> {
         return h;
     }
 
-    public class Entries<K, V> implements Iterator<Entity<K, V>> {
+    public static class Entries<K, V> implements Iterator<Entity<K, V>> {
         private ArrayMap<K, V> map;
         Entity<K, V> entry = new Entity();
         int index;

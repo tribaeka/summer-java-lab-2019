@@ -9,7 +9,7 @@ public class LinkedMap<K, V> implements Map<K, V> {
     private LinkedList<Entity<K, V>> entrySet;
 
     public LinkedMap() {
-        this.entrySet = new LinkedList<>();
+        this.entrySet = new LinkedList<>(false);
     }
 
     public int size() {
@@ -32,9 +32,8 @@ public class LinkedMap<K, V> implements Map<K, V> {
     }
 
     public void set(K key, V value) {
-        if (get(key) == null) {
-            this.entrySet.add(new Entity<>(key, value));
-        }
+        entrySet.add(new Entity<>(key, value));
+
     }
     public Entity remove(Object key) {
         Iterator<Entity<K, V>> iterator = entrySet.getIterator();

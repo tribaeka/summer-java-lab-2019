@@ -51,7 +51,7 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public Iterator getIterator() {
-        return new QueueIterator();
+        return new QueueIterator(this);
     }
 
     @Override
@@ -110,24 +110,25 @@ public class ArrayQueue<E> implements Queue<E> {
     public int size() {
         return size;
     }
+
     private class QueueIterator implements Iterator<E> {
+        private ArrayQueue arrayQueue;
+
+        public QueueIterator(ArrayQueue arrayQueue) {
+            this.arrayQueue = arrayQueue;
+        }
 
         public boolean hasNext() {
-            return last == maxSize - 1;
+            return !arrayQueue.isEmpty();
         }
 
         public E getNext() {
-            try {
-                return poll();
-            } catch (IndexOutOfBoundsException e) {
-                throw new NoSuchElementException();
-            }
+            return poll();
         }
 
         public void remove() {
-            ArrayQueue.this.remove();
+            arrayQueue.remove();
         }
-        //TODO
         public void addBefore(E e) {
 
         }

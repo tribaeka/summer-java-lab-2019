@@ -3,7 +3,6 @@ package by.epam.training.task4.library.interfaces;
 import java.util.Comparator;
 
 public interface Stack<E> {
-    //TODO from to to bottom iterator running
     Iterator getIterator();
     boolean isEmpty();
     E peek();

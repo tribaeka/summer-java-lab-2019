@@ -47,7 +47,40 @@ public class LinkedStack<E> implements Stack<E> {
 
     @Override
     public Iterator getIterator() {
-        return stack.getIterator();
+        return new LinkedStackIterator(this);
+    }
+
+    private class LinkedStackIterator implements Iterator<E> {
+        private LinkedStack linkedStack;
+        private LinkedStack restoreStack;
+        public LinkedStackIterator(LinkedStack linkedStack) {
+            this.linkedStack = linkedStack;
+            this.restoreStack = linkedStack;
+
+        }
+
+        public boolean hasNext() {
+            return !linkedStack.isEmpty();
+        }
+
+        public E getNext() {
+            return pop();
+        }
+
+        public void remove() {
+        }
+
+        public void addBefore(E e) {
+           linkedStack.stack.linkBefore(e, linkedStack.stack.node(linkedStack.stack.find(linkedStack.stack.getLast())));
+
+        }
+
+        public void addAfter(E e) {
+            push(e);
+        }
+        public void reset(){
+            linkedStack = restoreStack;
+        }
     }
 
     @Override
