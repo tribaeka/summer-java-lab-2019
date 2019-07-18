@@ -13,8 +13,9 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
 
     private int size;
     private E[] items;
-    private int maxSize = 8;
+    private int maxSize = 20;
     private Comparator<E> comparator = (Comparator<E>) Comparator.naturalOrder();
+
     public ArrayList(Comparator<E> comparator) {
         clear();
         this.comparator = comparator;
@@ -26,8 +27,22 @@ public class ArrayList<E> implements List<E>, Iterable<E> {
         addAll(array);
     }
 
+    public ArrayList(E[] array){
+        clear();
+        addAll(array);
+    }
+
+    public ArrayList(int size){
+        clear(size);
+    }
+
     public void clear() {
         size = 0;
+        ensureCapacity(maxSize);
+    }
+
+    public void clear(int size) {
+        this.size = size;
         ensureCapacity(maxSize);
     }
 

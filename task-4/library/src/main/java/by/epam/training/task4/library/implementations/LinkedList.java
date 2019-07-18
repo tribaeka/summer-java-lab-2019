@@ -179,6 +179,9 @@ public class LinkedList<E> implements List<E>, Iterable<E> {
             throw new NoSuchElementException();
         return l.item;
     }
+    public boolean isEmpty(){
+        return size == 0;
+    }
     @Override
     public int add(E e) {
         return linkLast(e);
