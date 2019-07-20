@@ -11,5 +11,6 @@ public class RunTests {
         System.out.println("failed tests: " + result.getFailureCount());
         System.out.println("ignored tests: " + result.getIgnoreCount());
         System.out.println("success: " + result.wasSuccessful());
+        System.out.println(result.getFailures());
     }
 }

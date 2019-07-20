@@ -20,6 +20,9 @@ public class Runner {
         }catch (FileNotFoundException ex){
             ex.printStackTrace();
         }
-
+        for (Expression expression: expressions){
+            System.out.println("Expression = "+expression.getDefaultExpression());
+            System.out.println("Result = " +expression.getResults());
+        }
     }
 }
