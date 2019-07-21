@@ -27,7 +27,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>Runner</mainClass>
+                            <mainClass>by.epam.training.task5.Runner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

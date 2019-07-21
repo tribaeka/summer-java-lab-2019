@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Runner {
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         List<Expression> expressions = new LinkedList<>();
         try(Scanner fileScanner = new Scanner(new File(args[0]))) {
             while (fileScanner.hasNextLine()){
@@ -21,9 +21,8 @@ public class Runner {
             ex.printStackTrace();
         }
         for (Expression expression: expressions){
-            System.out.println("Expression = "+expression.getDefaultExpression());
-            System.out.println("Result = " +expression.getResults());
+            System.out.println(expression);
         }
 
-    }*/
+    }
 }
