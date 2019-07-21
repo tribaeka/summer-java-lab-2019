@@ -1,6 +1,5 @@
 package by.epam.training.task5;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -36,10 +35,6 @@ public class ExpressionTest {
         Expression testExpression = new Expression("9");
         assertTrue(!testExpression.getErrorString().isEmpty());
         assertEquals("Error: There are not coins", testExpression.getErrorString());
-    }
-
-    @Test
-    public void restoreFromMoreElements() {
     }
 
     @Test
