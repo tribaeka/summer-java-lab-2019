@@ -26,27 +26,4 @@ public class Runner {
         }
 
     }*/
-    static int[] iArr = new int[100];
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int iVol = sc.nextInt();
-        currSlag(iVol, iVol, 0);
-    }
-
-    static void currSlag(int n, int k, int i) {
-
-        if ( n < 0 ) return;
-        if ( n == 0 ) {
-            for (int j = 0; j < i; j++) System.out.print(iArr[j] + " ");
-            System.out.println();
-        }
-        else {
-            if ( n >= k) {
-                iArr[i] = k;
-                currSlag(n - k, k, i + 1);
-            }
-            if ( k > 1) currSlag(n, k - 1, i);
-        }
-    }
 }

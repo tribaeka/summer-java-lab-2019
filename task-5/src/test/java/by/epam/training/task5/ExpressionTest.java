@@ -7,17 +7,18 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 public class ExpressionTest {
     private Expression expression;
     @Before
     public void init(){
-        expression = new Expression();
+        expression = new Expression("6 3 2");
     }
 
     @Test
     public void basicCalcSplitting(){
-        List<String> expected = new LinkedList<>(Arrays.asList(
+        Set<String> expected = new HashSet<>(Arrays.asList(
                 "6 ",
                 "5 1 ",
                 "4 2 ",
@@ -34,4 +35,13 @@ public class ExpressionTest {
 
     }
 
+    @Test
+    public void solveExpression(){
+        assertThat(expression.solveExpression(), containsInAnyOrder("2 2 2", "3 3"));
+    }
+
+    @Test
+    public void baseContainsOnly(){
+        assertTrue(expression.containsOnly("1 1 1 1 1 1 1 1 ", "1"));
+    }
 }

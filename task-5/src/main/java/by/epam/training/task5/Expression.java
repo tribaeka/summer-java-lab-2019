@@ -4,23 +4,44 @@ import java.util.*;
 
 public class Expression {
     private String defaultExpression;
-    private List<List<Integer>> results;
+    private Set<String> results;
     private static int[] iArr = new int[100];
-    private static List<String> splittingList = new LinkedList<>();
+    private static Set<String> splittingSet = new HashSet<>();
     public Expression(){
 
     }
     public Expression(String defaultExpression) {
         this.defaultExpression = defaultExpression;
-        this.results = null;
+        this.results = solveExpression();
     }
 
-    public String[] solveExpression(){
+    public Set<String> solveExpression(){
         String[] expression = defaultExpression.split(" ");
         int sum = Integer.parseInt(expression[0]);
-        int[] elements = new int[expression.length - 2];
-        return null;
+        List<String> elements = new LinkedList<>(Arrays.asList(expression).subList(1, expression.length));
+        Set<String> answer = new HashSet<>();
+        calcSplitting(sum, sum, 0);
+        for (String splitting : splittingSet){
+            for (String element : elements){
+                if (containsOnly(splitting, element)){
+                    answer.add(splitting.trim());
+                }
+            }
+        }
+        return answer;
     }
+    
+    public boolean containsOnly(String line, String item){
+        String[] withoutSpacesLine = line.split(" ");
+        boolean triger = true;
+        for (String lineItem : withoutSpacesLine){
+            if (!lineItem.equals(item)){
+                triger = false;
+            }
+        }
+        return triger;
+    }
+    
     public void calcSplitting(int n, int k, int i) {
 
         if ( n < 0 ) return;
@@ -29,7 +50,7 @@ public class Expression {
             for (int j = 0; j < i; j++) {
                 stringBuilder.append(iArr[j]).append(" ");
             }
-            splittingList.add(stringBuilder.toString());
+            splittingSet.add(stringBuilder.toString());
         }
         else {
             if ( n >= k) {
@@ -44,7 +65,7 @@ public class Expression {
         return defaultExpression;
     }
 
-    public List<List<Integer>> getResults() {
+    public Set<String> getResults() {
         return results;
     }
 
@@ -56,7 +77,7 @@ public class Expression {
         return integerList;
     }
 
-    public List<String> getSplittingList() {
-        return splittingList;
+    public Set<String> getSplittingList() {
+        return splittingSet;
     }
 }
