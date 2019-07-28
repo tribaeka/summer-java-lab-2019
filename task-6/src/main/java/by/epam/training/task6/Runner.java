@@ -5,8 +5,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import static by.epam.training.task6.utilities.JSONParser.*;
@@ -29,10 +29,9 @@ public class Runner {
     }
     private static void transactionsUploadingFromSubDBFiles(File mainDBFile){
         List<JSONObject> subDBList = getSubDBList();
-        List<JSONArray> subDBTransactions = new ArrayList<>();
-        for (JSONObject item : subDBList){
-            subDBTransactions.add(item.getJSONArray(JSON_TRANSACTIONS_KEY));
-        }
+        List<JSONArray> subDBTransactions = subDBList.stream()
+                .map(object -> object.getJSONArray(JSON_TRANSACTIONS_KEY))
+                .collect(Collectors.toList());
 
         JSONObject dateBase = new JSONObject(PathToString(Paths.get(mainDBFile.getPath())));
         JSONObject data = dateBase.getJSONObject(JSON_DATA_KEY);
