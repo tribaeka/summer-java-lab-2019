@@ -2,6 +2,8 @@
   data: {
     users: [
       {id: 0, name: "Alex", secondName: "Smith", sex: "MALE", birthday: "1984-06-24"},
+      {id: 1, name: "Mike", secondName: "Toster", sex: "MALE", birthday: "1989-10-04"},
+      {id: 2, name: "Sandra", secondName: "Lemskovki", sex: "FEMALE", birthday: "1980-03-13"},
     ],
     credits: [
       {id: 0, userId: 0, date: "2011-01-20", period: "DAY", money: 75000, rate: 10.6},

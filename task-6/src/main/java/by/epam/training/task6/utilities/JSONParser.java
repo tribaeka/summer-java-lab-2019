@@ -1,13 +1,17 @@
 package by.epam.training.task6.utilities;
 
 import by.epam.training.task6.model.Settings;
+import by.epam.training.task6.model.User;
 import com.alibaba.fastjson.JSON;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -17,7 +21,9 @@ public class JSONParser {
     public final static String DIRECTORY_PATH = "/Users/tribaeka/summer-java-lab-2019-yahor-hlushak/task-6/src/main/resources/data/";
     public final static String SUB_DB_POSTFIX = "^(db_)(\\w+)(\\.json)";
     public final static String JSON_TRANSACTIONS_KEY = "transactions";
+    public final static String TRANSACTIONS_REPLACEMENT = "{\ntransactions: [\n  ]\n}";
     public final static String JSON_DATA_KEY = "data";
+    public final static String JSON_USERS_KEY = "users";
     public final static String SETTINGS_BODY_KEY = "settings";
 
 
@@ -54,7 +60,7 @@ public class JSONParser {
                 .filter(item -> item.matches(SUB_DB_POSTFIX))
                 .map(item -> item = DIRECTORY_PATH + item)
                 .map(File::new)
-                .forEach(item -> writeStringInFile(item, ""));
+                .forEach(item -> writeStringInFile(item, TRANSACTIONS_REPLACEMENT));
     }
 
     public static void writeStringInFile(File file, String data) {
@@ -66,5 +72,13 @@ public class JSONParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static  <T> List<T> parseKey(JSONObject data, String key, Class<T> type) {
+        List<T> answer = new ArrayList<>();
+        for (Object item : data.getJSONArray(key)) {
+            answer.add(JSON.parseObject(item.toString(), type));
+        }
+        return answer;
     }
 }

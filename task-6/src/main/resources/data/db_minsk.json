@@ -1,5 +1,4 @@
 {
-  transactions: [
-    {id: 1, date:"2018-06-07", userId:1, creditId:3, currency: "EUR", money: 700}
+transactions: [
   ]
 }
