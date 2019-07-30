@@ -1,5 +1,7 @@
 package by.epam.training.task6.utilities;
 
+import by.epam.training.task6.model.Settings;
+import com.alibaba.fastjson.JSON;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -16,6 +18,7 @@ public class JSONParser {
     public final static String SUB_DB_POSTFIX = "^(db_)(\\w+)(\\.json)";
     public final static String JSON_TRANSACTIONS_KEY = "transactions";
     public final static String JSON_DATA_KEY = "data";
+    public final static String SETTINGS_BODY_KEY = "settings";
 
 
     public static String PathToString(Path path){
@@ -29,6 +32,12 @@ public class JSONParser {
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    public static Settings uploadSettings(File settingsFile){
+        JSONObject settingsJSONBody = new JSONObject(PathToString(Paths.get(settingsFile.getPath())));
+        JSONObject settingJSON = settingsJSONBody.getJSONObject(SETTINGS_BODY_KEY);
+        return JSON.parseObject(settingJSON.toString(), Settings.class);
     }
 
     public static List<JSONObject> getSubDBList(){

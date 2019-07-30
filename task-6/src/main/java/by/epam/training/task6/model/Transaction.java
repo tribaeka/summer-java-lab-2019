@@ -4,15 +4,16 @@ import java.time.LocalDate;
 
 public class Transaction {
     private int id;
-    private String date;
+    private LocalDate date;
     private int userId;
     private int creditId;
     private Currency currency;
     private int money;
+    //При расчете курса валюты – сначала event, потом transaction
 
     public Transaction(int id, String date, int userId, int creditId, String currency, int money) {
         this.id = id;
-        this.date = date;
+        this.date = LocalDate.parse(date);
         this.userId = userId;
         this.creditId = creditId;
         this.currency = Currency.valueOf(currency);

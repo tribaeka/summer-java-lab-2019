@@ -1,5 +1,7 @@
 package by.epam.training.task6;
 
+import by.epam.training.task6.model.Settings;
+import com.alibaba.fastjson.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.File;
@@ -20,13 +22,16 @@ public class Runner {
         File settingsFile = new File(DIRECTORY_PATH + SETTINGS_FILENAME);
         isFileExist(dateBaseFile);
         isFileExist(settingsFile);
-        transactionsUploadingFromSubDBFiles(dateBaseFile);
+        Settings settings = uploadSettings(settingsFile);
+        //transactionsUploadingFromSubDBFiles(dateBaseFile);
     }
+
     private static void isFileExist(File file) throws NoSuchFileException {
         if (!file.exists()){
             throw new NoSuchFileException(file.getName() + " is not exist!");
         }
     }
+
     private static void transactionsUploadingFromSubDBFiles(File mainDBFile){
         List<JSONObject> subDBList = getSubDBList();
         List<JSONArray> subDBTransactions = subDBList.stream()
