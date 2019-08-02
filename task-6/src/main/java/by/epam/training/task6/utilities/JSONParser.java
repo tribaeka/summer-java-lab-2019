@@ -16,7 +16,8 @@ import java.util.stream.Stream;
 
 public class JSONParser {
     public final static String DIRECTORY_PATH = "/Users/tribaeka/summer-java-lab-2019-yahor-hlushak/task-6/src/main/resources/data/";
-    public final static String SUB_DB_POSTFIX = "^(db_)(\\w+)(\\.json)";
+    public final static String SUB_DB_PREFIX = "^(db_)";
+    public final static String SUB_DB_POSTFIX = "(\\.json)";
     public final static String TRANSACTIONS_REPLACEMENT = "{\ntransactions: [\n  ]\n}";
     public final static String JSON_DATA_KEY = "data";
     public final static String JSON_USERS_KEY = "users";
@@ -46,9 +47,10 @@ public class JSONParser {
         return JSON.parseObject(settingJSON.toString(), Settings.class);
     }
 
-    public static List<JSONObject> getSubDBList(){
+    public static List<JSONObject> getSubDBList(String settingsDepartments){
+        String subDBMatchRegexp = SUB_DB_PREFIX + "(" + settingsDepartments + ")" + SUB_DB_POSTFIX;
         return Stream.of(Objects.requireNonNull(new File(DIRECTORY_PATH).list()))
-                .filter(item -> item.matches(SUB_DB_POSTFIX))
+                .filter(item -> item.matches(subDBMatchRegexp))
                 .map(item -> item = DIRECTORY_PATH + item)
                 .map(item -> Paths.get(item))
                 .map(JSONParser::PathToString)

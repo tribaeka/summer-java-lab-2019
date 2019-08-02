@@ -20,8 +20,63 @@ public class Transaction {
         this.money = money;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getCreditId() {
+        return creditId;
+    }
+
+    public void setCreditId(int creditId) {
+        this.creditId = creditId;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     @Override
     public String toString() {
-        return id + ";" + date + ";" + userId + ";" + creditId + ";" + currency + ";" + money;
+        return "Transaction{" +
+                "id=" + id +
+                ", date=" + date +
+                ", userId=" + userId +
+                ", creditId=" + creditId +
+                ", currency=" + currency +
+                ", money=" + money +
+                '}';
     }
 }

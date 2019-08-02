@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import static by.epam.training.task6.utilities.JSONParser.*;
 
 public class Runner {
+
     private final static String MAIN_DB_FILENAME = "db.json";
     private final static String SETTINGS_FILENAME = "settings.json";
 
@@ -23,20 +24,22 @@ public class Runner {
         isFileExist(settingsFile);
 
         Settings settings = uploadSettings(settingsFile);
-        transactionsUploadingFromSubDBFiles(dateBaseFile);
+        transactionsUploadingFromSubDBFiles(dateBaseFile, settings.pickingDepartments());
 
         JSONObject dataBase = new JSONObject(
                 PathToString(Paths.get(dateBaseFile.getPath())))
                 .getJSONObject(JSON_DATA_KEY);
         List<User> users = parseKey(dataBase, JSON_USERS_KEY, User.class);
-        System.out.println(users);
         List<Event> events = parseKey(dataBase, JSON_EVENTS_KEY, Event.class);
-        System.out.println(events);
         List<Credit> credits = parseKey(dataBase, JSON_CREDITS_KEY, Credit.class);
-        System.out.println(credits);
         List<Discount> discounts = parseKey(dataBase, JSON_DISCOUNTS_KEY, Discount.class);
-        System.out.println(discounts);
         List<Transaction> transactions = parseKey(dataBase, JSON_TRANSACTIONS_KEY, Transaction.class);
+
+        System.out.println(settings);
+        System.out.println(users);
+        System.out.println(events);
+        System.out.println(credits);
+        System.out.println(discounts);
         System.out.println(transactions);
     }
 
@@ -46,8 +49,8 @@ public class Runner {
         }
     }
 
-    private static void transactionsUploadingFromSubDBFiles(File mainDBFile){
-        List<JSONObject> subDBList = getSubDBList();
+    private static void transactionsUploadingFromSubDBFiles(File mainDBFile, String useDepartmentsRegexp){
+        List<JSONObject> subDBList = getSubDBList(useDepartmentsRegexp);
         List<JSONArray> subDBTransactions = subDBList.stream()
                 .map(object -> object.getJSONArray(JSON_TRANSACTIONS_KEY))
                 .collect(Collectors.toList());

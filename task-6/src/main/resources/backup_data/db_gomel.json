@@ -1,6 +1,6 @@
 {
   transactions: [
-    {id: 0, date:"2018-06-07", userId:0, creditId:5, currency: "EUR", money: 1400},
+    {id: 3, date:"2018-06-07", userId:0, creditId:5, currency: "EUR", money: 1400},
     {id: 2, date:"2018-06-07", userId:1, creditId:2, currency: "USD", money: 700}
   ]
 }
