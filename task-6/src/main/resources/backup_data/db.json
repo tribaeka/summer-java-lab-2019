@@ -16,7 +16,7 @@
       {id: 1, type: "MANY", dateFrom: "2007-04-12", dateTo: "2008-04-12", discount: 6.1},
     ],
     events: [
-      {id: 0, currency: "EUR", cost: 1600, data: "2008-04-12"},
+      {id: 0, currency: "EUR", cost: 1600, date: "2008-04-12"},
     ],
     transactions: [
       {id: 0, date: "2007-04-12",  userId:5, creditId: 6, currency: "EUR", money: 1400},

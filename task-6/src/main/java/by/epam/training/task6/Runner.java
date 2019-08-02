@@ -1,7 +1,6 @@
 package by.epam.training.task6;
 
-import by.epam.training.task6.model.Settings;
-import by.epam.training.task6.model.User;
+import by.epam.training.task6.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.File;
@@ -31,6 +30,14 @@ public class Runner {
                 .getJSONObject(JSON_DATA_KEY);
         List<User> users = parseKey(dataBase, JSON_USERS_KEY, User.class);
         System.out.println(users);
+        List<Event> events = parseKey(dataBase, JSON_EVENTS_KEY, Event.class);
+        System.out.println(events);
+        List<Credit> credits = parseKey(dataBase, JSON_CREDITS_KEY, Credit.class);
+        System.out.println(credits);
+        List<Discount> discounts = parseKey(dataBase, JSON_DISCOUNTS_KEY, Discount.class);
+        System.out.println(discounts);
+        List<Transaction> transactions = parseKey(dataBase, JSON_TRANSACTIONS_KEY, Transaction.class);
+        System.out.println(transactions);
     }
 
     private static void isFileExist(File file) throws NoSuchFileException {

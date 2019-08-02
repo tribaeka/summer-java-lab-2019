@@ -63,6 +63,12 @@ public class User {
 
     @Override
     public String toString() {
-        return id+";"+name+";"+secondName+";"+sex+";"+birthday;
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", sex=" + sex +
+                ", birthday=" + birthday +
+                '}';
     }
 }
