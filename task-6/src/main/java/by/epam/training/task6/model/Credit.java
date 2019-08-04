@@ -7,41 +7,55 @@ public class Credit {
     private int userId;
     private LocalDate date;
     private Period period;
-    private int money;
-    private int rate;
+    private double money;
+    private double rate;
 
     private enum  Period {
-        DAY{
+        DAY(null){
             public LocalDate getDateTo(LocalDate date){
                 return date.plusDays(1);
             }
         },
-        WEEK{
+        WEEK(null){
             public LocalDate getDateTo(LocalDate date){
                 return date.plusWeeks(1);
             }
         },
-        MONTH{
+        MONTH(null){
             public LocalDate getDateTo(LocalDate date){
                 return date.plusMonths(1);
             }
         },
-        YEAR{
+        YEAR(null){
             public LocalDate getDateTo(LocalDate date){
                 return date.plusYears(1);
             }
         };
+        private LocalDate rateWasAddedTo;
+
+        Period(LocalDate rateWasAddedTo) {
+            this.rateWasAddedTo = rateWasAddedTo;
+        }
+
+        public LocalDate getRateWasAddedTo() {
+            return rateWasAddedTo;
+        }
+
+        public void setRateWasAddedTo(LocalDate rateWasAddedTo) {
+            this.rateWasAddedTo = rateWasAddedTo;
+        }
 
         public LocalDate getDateTo(LocalDate date){
             return date;
         }
     }
 
-    public Credit(int id, int userId, String date, Period period, int money, int rate) {
+    public Credit(int id, int userId, String date, Period period, double money, double rate) {
         this.id = id;
         this.userId = userId;
         this.date = LocalDate.parse(date);
         this.period = period;
+        this.period.setRateWasAddedTo(this.date);
         this.money = money;
         this.rate = rate;
     }
@@ -70,10 +84,6 @@ public class Credit {
         this.date = date;
     }
 
-    public LocalDate getDateTo(){
-        return period.getDateTo(date);
-    }
-
     public Period getPeriod() {
         return period;
     }
@@ -82,20 +92,36 @@ public class Credit {
         this.period = period;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    private double roundMoney(){
+        return Math.round(money * 100.0) / 100.0;
+    }
+
+    public void growMoneyToTransactionDate(LocalDate transactionDate){
+        while (period.getRateWasAddedTo().isBefore(transactionDate)){
+            money = money + money * (rate / 100);
+            period.setRateWasAddedTo(period.getDateTo(period.getRateWasAddedTo()));
+        }
+        money = roundMoney();
+    }
+
+    public void creditRepayment(Transaction transaction){
+        money -= transaction.getMoney() * transaction.getCurrency().getCurrencyCost();
     }
 
     @Override
@@ -104,9 +130,8 @@ public class Credit {
                 "id=" + id +
                 ", userId=" + userId +
                 ", date=" + date +
-                ", dateTo=" + getDateTo() +
                 ", period=" + period +
-                ", money=" + money +
+                ", money=" + roundMoney() +
                 ", rate=" + rate +
                 '}';
     }

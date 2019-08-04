@@ -8,10 +8,10 @@ public class Transaction {
     private int userId;
     private int creditId;
     private Currency currency;
-    private int money;
+    private double money;
     //При расчете курса валюты – сначала event, потом transaction
 
-    public Transaction(int id, String date, int userId, int creditId, String currency, int money) {
+    public Transaction(int id, String date, int userId, int creditId, String currency, double money) {
         this.id = id;
         this.date = LocalDate.parse(date);
         this.userId = userId;
@@ -60,11 +60,11 @@ public class Transaction {
         this.currency = currency;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

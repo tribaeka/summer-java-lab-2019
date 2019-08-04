@@ -1,15 +1,15 @@
 package by.epam.training.task6.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Event {
     private int id;
     private Currency currency;
-    private int cost;
+    private double cost;
     private LocalDate date;
-    //can be just one event per day
 
-    public Event(int id, Currency currency, int cost, String date) {
+    public Event(int id, Currency currency, double cost, String date) {
         this.id = id;
         this.currency = currency;
         this.cost = cost;
@@ -32,11 +32,11 @@ public class Event {
         this.currency = currency;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -46,6 +46,15 @@ public class Event {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void applyEvent(){
+        currency.setCurrencyCost(cost / 1000);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, currency, cost, date);
     }
 
     @Override

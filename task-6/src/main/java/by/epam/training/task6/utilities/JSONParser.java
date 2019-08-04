@@ -2,6 +2,7 @@ package by.epam.training.task6.utilities;
 
 import by.epam.training.task6.model.Settings;
 import com.alibaba.fastjson.JSON;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -47,19 +48,19 @@ public class JSONParser {
         return JSON.parseObject(settingJSON.toString(), Settings.class);
     }
 
-    public static List<JSONObject> getSubDBList(String settingsDepartments){
-        String subDBMatchRegexp = SUB_DB_PREFIX + "(" + settingsDepartments + ")" + SUB_DB_POSTFIX;
+    public static List<JSONArray> getSubDBTransactionArrays(String subDBFilesRegexp){
         return Stream.of(Objects.requireNonNull(new File(DIRECTORY_PATH).list()))
-                .filter(item -> item.matches(subDBMatchRegexp))
+                .filter(item -> item.matches(subDBFilesRegexp))
                 .map(item -> item = DIRECTORY_PATH + item)
                 .map(item -> Paths.get(item))
                 .map(JSONParser::PathToString)
                 .map(JSONObject::new)
+                .map(object -> object.getJSONArray(JSON_TRANSACTIONS_KEY))
                 .collect(Collectors.toList());
     }
-    public static void clearSubDBFiles(){
+    public static void clearSubDBFiles(String subDBFilesRegexp){
         Stream.of(Objects.requireNonNull(new File(DIRECTORY_PATH).list()))
-                .filter(item -> item.matches(SUB_DB_POSTFIX))
+                .filter(item -> item.matches(subDBFilesRegexp))
                 .map(item -> item = DIRECTORY_PATH + item)
                 .map(File::new)
                 .forEach(item -> writeStringInFile(item, TRANSACTIONS_REPLACEMENT));

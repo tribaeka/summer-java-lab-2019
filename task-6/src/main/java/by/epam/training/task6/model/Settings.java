@@ -2,7 +2,6 @@ package by.epam.training.task6.model;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 public class Settings {
     private LocalDate dateFrom;
@@ -51,6 +50,9 @@ public class Settings {
     }
 
     public String pickingDepartments(){
+        if (useDepartments == null){
+            return ".*";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < useDepartments.length; i++){
             stringBuilder.append("(").append(useDepartments[i]).append(")");

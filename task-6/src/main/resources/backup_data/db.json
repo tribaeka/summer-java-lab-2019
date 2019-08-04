@@ -6,9 +6,9 @@
       {id: 2, name: "Sandra", secondName: "Lemskovki", sex: "FEMALE", birthday: "1980-03-13"},
     ],
     credits: [
-      {id: 0, userId: 0, date: "2011-01-20", period: "DAY", money: 75000, rate: 10.6},
-      {id: 1, userId: 0, date: "2017-04-15", period: "WEEK", money: 42100, rate: 10.6},
-      {id: 2, userId: 0, date: "2016-02-01", period: "MONTH", money: 35400, rate: 10.6},
+      {id: 0, userId: 0, date: "2011-01-20", period: "DAY", money: 75000, rate: 1.6},
+      {id: 1, userId: 0, date: "2017-04-15", period: "WEEK", money: 42100, rate: 3.6},
+      {id: 2, userId: 0, date: "2013-02-01", period: "MONTH", money: 35400, rate: 5.6},
       {id: 3, userId: 0, date: "2013-05-07", period: "YEAR", money: 41700, rate: 10.6},
     ],
     discounts: [
@@ -17,6 +17,8 @@
     ],
     events: [
       {id: 0, currency: "EUR", cost: 1600, date: "2008-04-12"},
+      {id: 0, currency: "EUR", cost: 1700, date: "2008-04-12"},
+      {id: 1, currency: "EUR", cost: 2300, date: "2012-04-12"},
     ],
     transactions: [
       {id: 0, date: "2007-04-12",  userId:5, creditId: 6, currency: "EUR", money: 1400},

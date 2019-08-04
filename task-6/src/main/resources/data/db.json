@@ -19,7 +19,7 @@
             "date": "2011-01-20",
             "period": "DAY",
             "money": 75000,
-            "rate": 10.6,
+            "rate": 1.6,
             "id": 0,
             "userId": 0
         },
@@ -27,15 +27,15 @@
             "date": "2017-04-15",
             "period": "WEEK",
             "money": 42100,
-            "rate": 10.6,
+            "rate": 3.6,
             "id": 1,
             "userId": 0
         },
         {
-            "date": "2016-02-01",
+            "date": "2013-02-01",
             "period": "MONTH",
             "money": 35400,
-            "rate": 10.6,
+            "rate": 5.6,
             "id": 2,
             "userId": 0
         },
@@ -58,7 +58,7 @@
             "userId": 5
         },
         {
-            "date": "2018-06-07",
+            "date": "2014-06-07",
             "creditId": 5,
             "money": 1400,
             "currency": "EUR",
@@ -66,7 +66,7 @@
             "userId": 0
         },
         {
-            "date": "2018-06-07",
+            "date": "2013-06-07",
             "creditId": 2,
             "money": 700,
             "currency": "USD",
@@ -74,11 +74,19 @@
             "userId": 1
         },
         {
-            "date": "2018-06-07",
+            "date": "2014-05-07",
             "creditId": 3,
-            "money": 700,
+            "money": 6600,
             "currency": "EUR",
             "id": 1,
+            "userId": 1
+        },
+        {
+            "date": "2015-05-07",
+            "creditId": 3,
+            "money": 15000,
+            "currency": "EUR",
+            "id": 2,
             "userId": 1
         }
     ],
@@ -105,10 +113,24 @@
             "secondName": "Lemskovki"
         }
     ],
-    "events": [{
-        "date": "2008-04-12",
-        "cost": 1600,
-        "currency": "EUR",
-        "id": 0
-    }]
+    "events": [
+        {
+            "date": "2008-04-12",
+            "cost": 1600,
+            "currency": "EUR",
+            "id": 0
+        },
+        {
+            "date": "2008-04-12",
+            "cost": 1700,
+            "currency": "EUR",
+            "id": 0
+        },
+        {
+            "date": "2012-04-12",
+            "cost": 2300,
+            "currency": "EUR",
+            "id": 1
+        }
+    ]
 }}
