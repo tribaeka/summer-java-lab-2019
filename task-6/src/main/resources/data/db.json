@@ -1,17 +1,23 @@
 {"data": {
     "discounts": [
         {
-            "date": "2007-04-12",
+            "date": "2015-05-07",
             "discount": 6.1,
             "id": 0,
             "type": "ONE"
         },
         {
-            "dateTo": "2008-04-12",
+            "date": "2009-05-07",
+            "discount": 6.1,
+            "id": 0,
+            "type": "ONE"
+        },
+        {
+            "dateTo": "2014-04-12",
             "discount": 6.1,
             "id": 1,
             "type": "MANY",
-            "dateFrom": "2007-04-12"
+            "dateFrom": "2013-04-12"
         }
     ],
     "credits": [

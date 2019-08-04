@@ -9,7 +9,7 @@ public class Transaction {
     private int creditId;
     private Currency currency;
     private double money;
-    //При расчете курса валюты – сначала event, потом transaction
+    private double defaultMoney;
 
     public Transaction(int id, String date, int userId, int creditId, String currency, double money) {
         this.id = id;
@@ -18,6 +18,7 @@ public class Transaction {
         this.creditId = creditId;
         this.currency = Currency.valueOf(currency);
         this.money = money;
+        this.defaultMoney = money;
     }
 
     public int getId() {
@@ -66,6 +67,10 @@ public class Transaction {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public void restoreMoney(){
+        money = defaultMoney;
     }
 
     @Override

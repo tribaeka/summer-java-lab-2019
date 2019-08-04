@@ -4,23 +4,13 @@ import java.time.LocalDate;
 
 public class Discount {
     private int id;
-    private Type type;
+    private TypeOfDiscounts type;
     private LocalDate date;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private double discount;
 
-    private enum Type {
-        ONE, MANY
-    }
-    /*
-    для ONE – акция действует только 1 день, возможные поля
-    date – сама дата и discount – скидка, она отнимается от текущего rate
-    (если rate – меньше скидки – тогда просто обнуляем начисление в эту итерацию)
-    для MANY – акция действует в период между dateFrom и dateTo, остальное – тоже самое
-     */
-
-    public Discount(int id, Type type, LocalDate date, LocalDate dateFrom, LocalDate dateTo, double discount) {
+    public Discount(int id, TypeOfDiscounts type, LocalDate date, LocalDate dateFrom, LocalDate dateTo, double discount) {
         this.id = id;
         this.type = type;
         this.date = date;
@@ -37,11 +27,11 @@ public class Discount {
         this.id = id;
     }
 
-    public Type getType() {
+    public TypeOfDiscounts getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(TypeOfDiscounts type) {
         this.type = type;
     }
 
@@ -79,7 +69,7 @@ public class Discount {
 
     @Override
     public String toString() {
-        if (type.equals(Type.ONE)){
+        if (type.equals(TypeOfDiscounts.ONE)){
             return "Discount{" +
                     "id=" + id +
                     ", type=" + type +

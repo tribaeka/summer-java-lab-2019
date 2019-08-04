@@ -9,6 +9,7 @@ public class Credit {
     private Period period;
     private double money;
     private double rate;
+    private double defaultRate;
 
     private enum  Period {
         DAY(null){
@@ -58,6 +59,7 @@ public class Credit {
         this.period.setRateWasAddedTo(this.date);
         this.money = money;
         this.rate = rate;
+        this.defaultRate = rate;
     }
 
     public int getId() {
@@ -122,6 +124,16 @@ public class Credit {
 
     public void creditRepayment(Transaction transaction){
         money -= transaction.getMoney() * transaction.getCurrency().getCurrencyCost();
+    }
+
+    public boolean applyDiscount(Discount discount){
+        if (discount.getDiscount() > rate) return false;
+        rate -= discount.getDiscount();
+        return true;
+    }
+
+    public void restoreRate(){
+        rate = defaultRate;
     }
 
     @Override

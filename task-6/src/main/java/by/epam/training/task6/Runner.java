@@ -2,6 +2,7 @@ package by.epam.training.task6;
 
 import by.epam.training.task6.model.*;
 import by.epam.training.task6.model.Currency;
+import by.epam.training.task6.utilities.BadDiscountException;
 import by.epam.training.task6.utilities.TransactionsByDateComparator;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,7 +12,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 import static by.epam.training.task6.utilities.JSONParser.*;
@@ -66,13 +66,27 @@ public class Runner {
 
         for (Map.Entry<Credit, List<Transaction>> entry : workMap.entrySet()){
             for (Transaction transaction : entry.getValue()){
+                boolean badDiscount = false;
                 entry.getKey().growMoneyToTransactionDate(transaction.getDate());
                 System.out.println(entry.getKey()+"before payment");
-                availableEventsByDate(events, transaction.getDate()).forEach(Event::applyEvent);
+                availableEvents(events, transaction.getDate()).forEach(Event::applyEvent);
+                for (Discount discount : availableDiscounts(discounts, transaction.getDate())){
+                    System.out.println(discount+"-> is availaible for this");
+                    if (!entry.getKey().applyDiscount(discount)){
+                        try {
+                            throw new BadDiscountException();
+                        } catch (BadDiscountException e) {
+                            transaction.setMoney(0);
+                            badDiscount = true;
+                        }
+                    }
+                }
                 System.out.println((transaction.getMoney()*transaction.getCurrency().getCurrencyCost())+"-> money");
                 entry.getKey().creditRepayment(transaction);
                 System.out.println(entry.getKey()+"after payment");
                 Currency.setStartCost(settings);
+                entry.getKey().restoreRate();
+                if (badDiscount) transaction.restoreMoney();
             }
 
         }
@@ -118,7 +132,7 @@ public class Runner {
                 .collect(Collectors.toList());
     }
 
-    private static List<Event> availableEventsByDate(List<Event> events, LocalDate date){
+    private static List<Event> availableEvents(List<Event> events, LocalDate date){
         Iterator<Event> iterator = events.iterator();
         Set<LocalDate> dateSet = new HashSet<>();
         while (iterator.hasNext()){
@@ -127,5 +141,9 @@ public class Runner {
             }
         }
         return events.stream().filter(event -> event.getDate().isBefore(date)).collect(Collectors.toList());
+    }
+
+    private static List<Discount> availableDiscounts(List<Discount> discounts, LocalDate date){
+        return discounts.stream().filter(discount -> discount.getType().isAvailable(discount, date)).collect(Collectors.toList());
     }
 }
