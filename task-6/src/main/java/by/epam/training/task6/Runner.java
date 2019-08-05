@@ -40,56 +40,30 @@ public class Runner {
         List<Discount> discounts = parseKey(dataBase, JSON_DISCOUNTS_KEY, Discount.class);
         List<Transaction> transactions = parseKey(dataBase, JSON_TRANSACTIONS_KEY, Transaction.class);
 
-        System.out.println(settings);
+        /*System.out.println(settings);
         System.out.println(users);
         System.out.println(events);
         System.out.println(credits);
         System.out.println(discounts);
         System.out.println(transactions);
-        System.out.println();
+        System.out.println();*/
 
-        List<Transaction> avalabeTransactions = transactionsForCalc(settings, transactions);
-        HashMap<Credit, List<Transaction>> workMap = new HashMap<>();
+        List<Transaction> availableTransactions = transactionsForCalc(settings, transactions);
+        HashMap<Credit, List<Transaction>> paymentMap = new HashMap<>();
         credits.forEach(credit -> {
             List<Transaction> listInMap = new LinkedList<>();
-            boolean firstFindTrigger = false;
-            for (Transaction transaction : avalabeTransactions){
-                if (credit.getId() == transaction.getCreditId()){
-                    listInMap.add(transaction);
-                    firstFindTrigger = true;
-                }
+            availableTransactions.stream()
+                                 .filter(transaction -> credit.getId() == transaction.getCreditId())
+                                 .forEach(listInMap::add);
+            if (!listInMap.isEmpty()) {
+                listInMap.sort(new TransactionsByDateComparator());
+                paymentMap.put(credit, listInMap);
             }
-            if (!listInMap.isEmpty()) listInMap.sort(new TransactionsByDateComparator());
-            if (firstFindTrigger) workMap.put(credit, listInMap);
         });
-        System.out.println(workMap);
-
-        for (Map.Entry<Credit, List<Transaction>> entry : workMap.entrySet()){
-            for (Transaction transaction : entry.getValue()){
-                boolean badDiscount = false;
-                entry.getKey().growMoneyToTransactionDate(transaction.getDate());
-                System.out.println(entry.getKey()+"before payment");
-                availableEvents(events, transaction.getDate()).forEach(Event::applyEvent);
-                for (Discount discount : availableDiscounts(discounts, transaction.getDate())){
-                    System.out.println(discount+"-> is availaible for this");
-                    if (!entry.getKey().applyDiscount(discount)){
-                        try {
-                            throw new BadDiscountException();
-                        } catch (BadDiscountException e) {
-                            transaction.setMoney(0);
-                            badDiscount = true;
-                        }
-                    }
-                }
-                System.out.println((transaction.getMoney()*transaction.getCurrency().getCurrencyCost())+"-> money");
-                entry.getKey().creditRepayment(transaction);
-                System.out.println(entry.getKey()+"after payment");
-                Currency.setStartCost(settings);
-                entry.getKey().restoreRate();
-                if (badDiscount) transaction.restoreMoney();
-            }
-
-        }
+        paymentMap.forEach((key, values) -> values.forEach(transaction -> {
+            processTransaction(transaction, key, events, discounts);
+            Currency.setStartCost(settings);
+        }));
     }
 
     private static void isFileExist(File file) throws NoSuchFileException {
@@ -146,4 +120,25 @@ public class Runner {
     private static List<Discount> availableDiscounts(List<Discount> discounts, LocalDate date){
         return discounts.stream().filter(discount -> discount.getType().isAvailable(discount, date)).collect(Collectors.toList());
     }
+
+    private static void processTransaction(Transaction transaction, Credit credit,
+                                           List<Event> events, List<Discount> discounts){
+        boolean badDiscount = false;
+        credit.growMoneyToTransactionDate(transaction.getDate());
+        availableEvents(events, transaction.getDate()).forEach(Event::applyEvent);
+        for (Discount discount : availableDiscounts(discounts, transaction.getDate())){
+            if (!credit.applyDiscount(discount)){
+                try {
+                    throw new BadDiscountException();
+                } catch (BadDiscountException e) {
+                    transaction.setMoney(0);
+                    badDiscount = true;
+                }
+            }
+        }
+        credit.creditRepayment(transaction);
+        credit.restoreRate();
+        if (badDiscount) transaction.restoreMoney();
+    }
+
 }
