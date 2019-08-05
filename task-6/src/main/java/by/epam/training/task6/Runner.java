@@ -64,6 +64,8 @@ public class Runner {
             processTransaction(transaction, key, events, discounts);
             Currency.setStartCost(settings);
         }));
+        showResults(credits, showFor(users, settings));
+
     }
 
     private static void isFileExist(File file) throws NoSuchFileException {
@@ -138,7 +140,28 @@ public class Runner {
         }
         credit.creditRepayment(transaction);
         credit.restoreRate();
-        if (badDiscount) transaction.restoreMoney();
+        credit.addTransaction();
+        if (badDiscount) {
+            transaction.restoreMoney();
+            credit.removeTransaction();
+        }
+    }
+
+    private static void showResults(List<Credit> credits, List<User> users){
+        //TODO sorting
+        for (User user : users){
+            for (Credit credit : credits){
+                if (user.getId() == credit.getUserId()){
+                    System.out.format("|%-2d|%-2d|%-20s|%-2d|%-8.0f|%-20s|\n",
+                            credit.getId(), user.getId(), user.getFullname(), credit.getNumberOfTransactions(),
+                            credit.getMoney(), credit.getState());
+                }
+            }
+        }
+    }
+
+    private static List<User> showFor(List<User> users, Settings settings){
+        return users.stream().filter(user -> settings.getShowFor().checkFor(user)).collect(Collectors.toList());
     }
 
 }

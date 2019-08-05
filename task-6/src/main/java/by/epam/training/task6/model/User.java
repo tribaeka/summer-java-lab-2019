@@ -61,6 +61,10 @@ public class User {
         this.birthday = birthday;
     }
 
+    public String getFullname(){
+        return name + " " + secondName;
+    }
+
     @Override
     public String toString() {
         return "User{" +

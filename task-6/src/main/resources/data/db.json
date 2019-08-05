@@ -35,7 +35,7 @@
             "money": 42100,
             "rate": 3.6,
             "id": 1,
-            "userId": 0
+            "userId": 1
         },
         {
             "date": "2013-02-01",
@@ -43,7 +43,7 @@
             "money": 35400,
             "rate": 5.6,
             "id": 2,
-            "userId": 0
+            "userId": 2
         },
         {
             "date": "2013-05-07",
@@ -51,7 +51,7 @@
             "money": 41700,
             "rate": 10.6,
             "id": 3,
-            "userId": 0
+            "userId": 1
         }
     ],
     "transactions": [

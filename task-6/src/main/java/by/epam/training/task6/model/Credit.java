@@ -10,6 +10,28 @@ public class Credit {
     private double money;
     private double rate;
     private double defaultRate;
+    private int numberOfTransactions = 0;
+    private State state = State.IN_PROGRESS;
+
+    private enum State{
+        IN_PROGRESS, DONE;
+        private LocalDate doneDate = null;
+
+        public LocalDate getDoneDate() {
+            return doneDate;
+        }
+
+        public void setDoneDate(LocalDate doneDate) {
+            this.doneDate = doneDate;
+        }
+
+        @Override
+        public String toString() {
+            if (this == State.DONE){
+                return this.name() + " - " + doneDate;
+            }else return this.name();
+        }
+    }
 
     private enum  Period {
         DAY(null){
@@ -46,9 +68,7 @@ public class Credit {
             this.rateWasAddedTo = rateWasAddedTo;
         }
 
-        public LocalDate getDateTo(LocalDate date){
-            return date;
-        }
+        public abstract LocalDate getDateTo(LocalDate date);
     }
 
     public Credit(int id, int userId, String date, Period period, double money, double rate) {
@@ -95,6 +115,7 @@ public class Credit {
     }
 
     public double getMoney() {
+        if (money < 0) return 0;
         return money;
     }
 
@@ -106,8 +127,32 @@ public class Credit {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public double getDefaultRate() {
+        return defaultRate;
+    }
+
+    public void setDefaultRate(double defaultRate) {
+        this.defaultRate = defaultRate;
+    }
+
+    public int getNumberOfTransactions() {
+        return numberOfTransactions;
+    }
+
+    public void setNumberOfTransactions(int numberOfTransactions) {
+        this.numberOfTransactions = numberOfTransactions;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     private double roundMoney(){
@@ -124,6 +169,7 @@ public class Credit {
 
     public void creditRepayment(Transaction transaction){
         money -= transaction.getMoney() * transaction.getCurrency().getCurrencyCost();
+        if (checkProgress()) state.setDoneDate(transaction.getDate());
     }
 
     public boolean applyDiscount(Discount discount){
@@ -134,6 +180,22 @@ public class Credit {
 
     public void restoreRate(){
         rate = defaultRate;
+    }
+
+    public void addTransaction(){
+        numberOfTransactions++;
+    }
+
+    public void removeTransaction(){
+        numberOfTransactions--;
+    }
+
+    private boolean checkProgress(){
+        if (money <= 0){
+            state = State.DONE;
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -27,6 +27,7 @@ public class JSONParser {
     public final static String JSON_EVENTS_KEY = "events";
     public final static String JSON_TRANSACTIONS_KEY = "transactions";
     public final static String SETTINGS_BODY_KEY = "settings";
+    public static final String JSON_TYPE_KEY = "type";
 
 
     public static String PathToString(Path path){

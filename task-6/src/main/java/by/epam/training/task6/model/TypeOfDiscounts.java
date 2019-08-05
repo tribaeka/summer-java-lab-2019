@@ -15,7 +15,5 @@ public enum TypeOfDiscounts {
         }
     };
 
-    public boolean isAvailable(Discount discount, LocalDate transactionDate){
-        return false;
-    }
+    public abstract boolean isAvailable(Discount discount, LocalDate transactionDate);
 }

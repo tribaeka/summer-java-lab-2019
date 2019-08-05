@@ -4,7 +4,7 @@
     dateTo: 2015-07-06,
     showFor: {
       type: "ID",
-      users: [1, 2, 3, 4, 5]
+      users: [0, 1]
     },
     sortBy: "NAME",
     useDepartments: [
