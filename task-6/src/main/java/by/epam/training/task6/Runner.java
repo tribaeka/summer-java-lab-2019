@@ -6,6 +6,7 @@ import by.epam.training.task6.utilities.BadDiscountException;
 import by.epam.training.task6.utilities.TransactionsByDateComparator;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
@@ -64,7 +65,8 @@ public class Runner {
             processTransaction(transaction, key, events, discounts);
             Currency.setStartCost(settings);
         }));
-        showResults(credits, showFor(users, settings));
+
+        showResults(credits, showFor(users, settings), settings.getSortBy());
 
     }
 
@@ -147,21 +149,78 @@ public class Runner {
         }
     }
 
-    private static void showResults(List<Credit> credits, List<User> users){
-        //TODO sorting
+    private static List<User> showFor(List<User> users, Settings settings){
+        return users.stream().filter(user -> settings.getShowFor().checkFor(user)).collect(Collectors.toList());
+    }
+
+    private static void showResults(List<Credit> credits, List<User> users, Settings.SortByFormat sortByFormat){
+        List<TableOutConsoleFormat> tableData = new ArrayList<>();
+
         for (User user : users){
             for (Credit credit : credits){
                 if (user.getId() == credit.getUserId()){
-                    System.out.format("|%-2d|%-2d|%-20s|%-2d|%-8.0f|%-20s|\n",
-                            credit.getId(), user.getId(), user.getFullname(), credit.getNumberOfTransactions(),
-                            credit.getMoney(), credit.getState());
+                    tableData.add(new TableOutConsoleFormat(credit.getId(), user.getId(), user.getFullName(), credit.getNumberOfTransactions(),
+                            credit.getMoney(), credit.getState(), user.getBirthday()));
                 }
             }
         }
+        tableData.stream().sorted(sortByFormat.getComparator()).forEach(System.out::println);
     }
 
-    private static List<User> showFor(List<User> users, Settings settings){
-        return users.stream().filter(user -> settings.getShowFor().checkFor(user)).collect(Collectors.toList());
+    public static class TableOutConsoleFormat{
+        private final int creditId;
+        private final int userId;
+        private final String fullName;
+        private final int numberOfTransactions;
+        private final double debt;
+        private final Credit.State state;
+        private final LocalDate birthday;
+
+        public TableOutConsoleFormat(int creditId, int userId, String fullName, int numberOfTransactions,
+                                     double debt, Credit.State state, LocalDate birthday) {
+            this.creditId = creditId;
+            this.userId = userId;
+            this.fullName = fullName;
+            this.numberOfTransactions = numberOfTransactions;
+            this.debt = debt;
+            this.state = state;
+            this.birthday = birthday;
+        }
+
+        public int getCreditId() {
+            return creditId;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public int getNumberOfTransactions() {
+            return numberOfTransactions;
+        }
+
+        public double getDebt() {
+            return debt;
+        }
+
+        public Credit.State getState() {
+            return state;
+        }
+
+        public LocalDate getBirthday() {
+            return birthday;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("|%-2d|%-2d|%-20s|%-2d|%-8.0f|%-20s|",
+                    creditId, userId, fullName, numberOfTransactions,
+                    debt, state);
+        }
     }
 
 }

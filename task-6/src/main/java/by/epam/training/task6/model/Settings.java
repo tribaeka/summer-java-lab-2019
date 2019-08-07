@@ -1,11 +1,13 @@
 package by.epam.training.task6.model;
 
+import by.epam.training.task6.Runner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,7 @@ public class Settings {
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private ShowForType showFor;
+    private SortByFormat sortBy;
     private String[] useDepartments;
     private double startCostEUR;
     private double startCostUSD;
@@ -30,7 +33,7 @@ public class Settings {
         NAME{
             @Override
             public boolean checkFor(User user) {
-                return getUsers().contains(user.getFullname());
+                return getUsers().contains(user.getFullName());
             }
         };
 
@@ -46,14 +49,54 @@ public class Settings {
 
         public abstract boolean checkFor(User user);
     }
+    public enum SortByFormat{
+        NAME{
+            @Override
+            public Comparator<Runner.TableOutConsoleFormat> getComparator() {
+                return new Comparator<Runner.TableOutConsoleFormat>() {
+                    @Override
+                    public int compare(Runner.TableOutConsoleFormat o1, Runner.TableOutConsoleFormat o2) {
+                        return o1.getFullName().length() - o2.getFullName().length();
+                    }
+                };
+            }
+        },
+        DEBT{
+            @Override
+            public Comparator<Runner.TableOutConsoleFormat> getComparator() {
+                return new Comparator<Runner.TableOutConsoleFormat>() {
+                    @Override
+                    public int compare(Runner.TableOutConsoleFormat o1, Runner.TableOutConsoleFormat o2) {
+                        return (int) (o1.getDebt() - o2.getDebt());
+                    }
+                };
+            }
+        },
+        AGE{
+            @Override
+            public Comparator<Runner.TableOutConsoleFormat> getComparator() {
+                return new Comparator<Runner.TableOutConsoleFormat>() {
+                    @Override
+                    public int compare(Runner.TableOutConsoleFormat o1, Runner.TableOutConsoleFormat o2) {
+                        if (o1.getBirthday().isEqual(o2.getBirthday())) return 0;
+                        if (o1.getBirthday().isBefore(o2.getBirthday())) return -1;
+                        if (o2.getBirthday().isAfter(o2.getBirthday())) return 1;
+                        return 0;
+                    }
+                };
+            }
+        };
 
-    public Settings(LocalDate dateFrom, LocalDate dateTo, String showFor,
+        public abstract Comparator<Runner.TableOutConsoleFormat> getComparator();
+    }
+    public Settings(LocalDate dateFrom, LocalDate dateTo, String showFor, SortByFormat sortBy,
                     String[] useDepartments, double startCostEUR, double startCostUSD) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         JSONObject showForJSON = new JSONObject(showFor);
         this.showFor = ShowForType.valueOf(showForJSON.opt(JSON_TYPE_KEY).toString());
         this.showFor.setUsers(showForJSON.getJSONArray(JSON_USERS_KEY));
+        this.sortBy = sortBy;
         this.useDepartments = useDepartments;
         this.startCostEUR = startCostEUR;
         this.startCostUSD = startCostUSD;
@@ -81,6 +124,14 @@ public class Settings {
 
     public void setShowFor(ShowForType showFor) {
         this.showFor = showFor;
+    }
+
+    public SortByFormat getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(SortByFormat sortBy) {
+        this.sortBy = sortBy;
     }
 
     public String[] getUseDepartments() {

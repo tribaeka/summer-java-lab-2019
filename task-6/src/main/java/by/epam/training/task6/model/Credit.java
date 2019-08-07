@@ -13,7 +13,7 @@ public class Credit {
     private int numberOfTransactions = 0;
     private State state = State.IN_PROGRESS;
 
-    private enum State{
+    public enum State{
         IN_PROGRESS, DONE;
         private LocalDate doneDate = null;
 

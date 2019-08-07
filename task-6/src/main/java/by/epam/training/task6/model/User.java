@@ -61,7 +61,7 @@ public class User {
         this.birthday = birthday;
     }
 
-    public String getFullname(){
+    public String getFullName(){
         return name + " " + secondName;
     }
 
