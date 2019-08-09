@@ -1,5 +1,7 @@
 package by.epam.training.task6;
 
+import by.epam.training.task6.dao.IDAO;
+import by.epam.training.task6.dao.JSONDAO;
 import by.epam.training.task6.model.*;
 import by.epam.training.task6.model.Currency;
 import by.epam.training.task6.utilities.BadDiscountException;
@@ -25,6 +27,7 @@ public class Runner {
     public static void main(String[] args) throws NoSuchFileException {
         File dateBaseFile = new File(DIRECTORY_PATH + MAIN_DB_FILENAME);
         File settingsFile = new File(DIRECTORY_PATH + SETTINGS_FILENAME);
+
         isFileExist(dateBaseFile);
         isFileExist(settingsFile);
 
@@ -32,41 +35,23 @@ public class Runner {
         Currency.setStartCost(settings);
         transactionsUploadingFromSubDBFiles(dateBaseFile, settings.pickingDepartments());
 
-        JSONObject dataBase = new JSONObject(
+        IDAO dao = new JSONDAO(new JSONObject(
                 PathToString(Paths.get(dateBaseFile.getPath())))
-                .getJSONObject(JSON_DATA_KEY);
-        List<User> users = parseKey(dataBase, JSON_USERS_KEY, User.class);
-        List<Event> events = parseKey(dataBase, JSON_EVENTS_KEY, Event.class);
-        List<Credit> credits = parseKey(dataBase, JSON_CREDITS_KEY, Credit.class);
-        List<Discount> discounts = parseKey(dataBase, JSON_DISCOUNTS_KEY, Discount.class);
-        List<Transaction> transactions = parseKey(dataBase, JSON_TRANSACTIONS_KEY, Transaction.class);
+                .getJSONObject(JSON_DATA_KEY));
 
-        /*System.out.println(settings);
-        System.out.println(users);
-        System.out.println(events);
-        System.out.println(credits);
-        System.out.println(discounts);
-        System.out.println(transactions);
-        System.out.println();*/
+        List<Event> events = dao.parseKey(JSON_EVENTS_KEY, Event.class);
+        List<Credit> credits = dao.parseKey(JSON_CREDITS_KEY, Credit.class);
+        List<Discount> discounts = dao.parseKey(JSON_DISCOUNTS_KEY, Discount.class);
 
-        List<Transaction> availableTransactions = transactionsForCalc(settings, transactions);
-        HashMap<Credit, List<Transaction>> paymentMap = new HashMap<>();
-        credits.forEach(credit -> {
-            List<Transaction> listInMap = new LinkedList<>();
-            availableTransactions.stream()
-                                 .filter(transaction -> credit.getId() == transaction.getCreditId())
-                                 .forEach(listInMap::add);
-            if (!listInMap.isEmpty()) {
-                listInMap.sort(new TransactionsByDateComparator());
-                paymentMap.put(credit, listInMap);
-            }
-        });
+        Map<Credit, List<Transaction>> paymentMap = createPaymentMap(credits,
+                transactionsForCalc(settings, dao.parseKey(JSON_TRANSACTIONS_KEY, Transaction.class)));
+
         paymentMap.forEach((key, values) -> values.forEach(transaction -> {
             processTransaction(transaction, key, events, discounts);
             Currency.setStartCost(settings);
         }));
 
-        showResults(credits, showFor(users, settings), settings.getSortBy());
+        showResults(credits, showFor(dao.parseKey(JSON_USERS_KEY, User.class), settings), settings.getSortBy());
 
     }
 
@@ -110,6 +95,21 @@ public class Runner {
                 .collect(Collectors.toList());
     }
 
+    private static Map<Credit, List<Transaction>> createPaymentMap(List<Credit> credits, List<Transaction> transactions){
+        HashMap<Credit, List<Transaction>> map = new HashMap<>();
+        credits.forEach(credit -> {
+            List<Transaction> listInMap = new LinkedList<>();
+            transactions.stream()
+                    .filter(transaction -> credit.getId() == transaction.getCreditId())
+                    .forEach(listInMap::add);
+            if (!listInMap.isEmpty()) {
+                listInMap.sort(new TransactionsByDateComparator());
+                map.put(credit, listInMap);
+            }
+        });
+        return map;
+    }
+
     private static List<Event> availableEvents(List<Event> events, LocalDate date){
         Iterator<Event> iterator = events.iterator();
         Set<LocalDate> dateSet = new HashSet<>();
@@ -118,18 +118,24 @@ public class Runner {
                 iterator.remove();
             }
         }
-        return events.stream().filter(event -> event.getDate().isBefore(date)).collect(Collectors.toList());
+        return events.stream()
+                .filter(event -> event.getDate().isBefore(date))
+                .collect(Collectors.toList());
     }
 
     private static List<Discount> availableDiscounts(List<Discount> discounts, LocalDate date){
-        return discounts.stream().filter(discount -> discount.getType().isAvailable(discount, date)).collect(Collectors.toList());
+        return discounts.stream()
+                .filter(discount -> discount.getType().isAvailable(discount, date))
+                .collect(Collectors.toList());
     }
 
     private static void processTransaction(Transaction transaction, Credit credit,
                                            List<Event> events, List<Discount> discounts){
         boolean badDiscount = false;
+
         credit.growMoneyToTransactionDate(transaction.getDate());
         availableEvents(events, transaction.getDate()).forEach(Event::applyEvent);
+
         for (Discount discount : availableDiscounts(discounts, transaction.getDate())){
             if (!credit.applyDiscount(discount)){
                 try {
@@ -150,7 +156,9 @@ public class Runner {
     }
 
     private static List<User> showFor(List<User> users, Settings settings){
-        return users.stream().filter(user -> settings.getShowFor().checkFor(user)).collect(Collectors.toList());
+        return users.stream()
+                .filter(user -> settings.getShowFor().checkFor(user))
+                .collect(Collectors.toList());
     }
 
     private static void showResults(List<Credit> credits, List<User> users, Settings.SortByFormat sortByFormat){
@@ -159,12 +167,16 @@ public class Runner {
         for (User user : users){
             for (Credit credit : credits){
                 if (user.getId() == credit.getUserId()){
-                    tableData.add(new TableOutConsoleFormat(credit.getId(), user.getId(), user.getFullName(), credit.getNumberOfTransactions(),
-                            credit.getMoney(), credit.getState(), user.getBirthday()));
+                    tableData.add(
+                            new TableOutConsoleFormat(credit.getId(), user.getId(), user.getFullName(),
+                            credit.getNumberOfTransactions(), credit.getMoney(), credit.getState(), user.getBirthday())
+                            );
                 }
             }
         }
-        tableData.stream().sorted(sortByFormat.getComparator()).forEach(System.out::println);
+        tableData.stream()
+                .sorted(sortByFormat.getComparator())
+                .forEach(System.out::println);
     }
 
     public static class TableOutConsoleFormat{

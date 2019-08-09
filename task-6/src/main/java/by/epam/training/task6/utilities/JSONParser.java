@@ -9,14 +9,13 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JSONParser {
-    public final static String DIRECTORY_PATH = "/Users/tribaeka/summer-java-lab-2019-yahor-hlushak/task-6/src/main/resources/data/";
+    public final static String DIRECTORY_PATH = new File("").getAbsolutePath() + "/data/";
     public final static String SUB_DB_PREFIX = "^(db_)";
     public final static String SUB_DB_POSTFIX = "(\\.json)";
     public final static String TRANSACTIONS_REPLACEMENT = "{\ntransactions: [\n  ]\n}";
@@ -76,13 +75,5 @@ public class JSONParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static  <T> List<T> parseKey(JSONObject data, String key, Class<T> type) {
-        List<T> answer = new ArrayList<>();
-        for (Object item : data.getJSONArray(key)) {
-            answer.add(JSON.parseObject(item.toString(), type));
-        }
-        return answer;
     }
 }
