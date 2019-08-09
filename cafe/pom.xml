@@ -21,17 +21,17 @@
                 </configuration>
             </plugin>
             <plugin>
-+                <groupId>org.apache.maven.plugins</groupId>
-+                <artifactId>maven-jar-plugin</artifactId>
-+                <configuration>
-+                    <archive>
-+                        <manifest>
-+                            <addClasspath>true</addClasspath>
-+                            <mainClass>by.epam.training.task1.Runner</mainClass>
-+                        </manifest>
-+                    </archive>
-+                </configuration>
-+            </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>by.epam.training.task3.Runner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
