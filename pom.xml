@@ -11,6 +11,7 @@
 
     <modules>
         <module>cafe</module>
+        <module>task-7</module>
     </modules>
 
 
