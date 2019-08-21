@@ -1,4 +1,6 @@
-package by.epam.training.task7.basicCAndP;
+package by.epam.training.extendedCAndP.model;
+
+import by.epam.training.extendedCAndP.model.model.TaskBoard;
 
 import java.util.Scanner;
 import java.util.stream.Stream;
