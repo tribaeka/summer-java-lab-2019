@@ -1,36 +1,46 @@
 package by.epam.training.task7.basicCAndP;
 
-import by.epam.training.task7.basicCAndP.model.Task;
+import java.util.Scanner;
+import java.util.stream.Stream;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Runner {
-    public final static int POOL_SIZE = 10;
+    public static void main(String[] args){
+        final int numberOfConsumer;
+        final int numberOfProducer;
 
-    public static void main(String[] args) throws InterruptedException {
-        final int numberOfConsumer = 10;
-        final int numberOfProducer = 2;
-        Queue<Task> pool = new ConcurrentLinkedQueue<>();
-
-        /*Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Number of consumer:");
         numberOfConsumer = scanner.nextInt();
         System.out.println("Number of producer:");
-        numberOfProducer = scanner.nextInt();*/
+        numberOfProducer = scanner.nextInt();
+
+        TaskBoard buffer = new TaskBoard(
+                Stream.of(numberOfConsumer, numberOfProducer)
+                .max(Integer::compareTo)
+                .get()
+        );
         for (int i = 0; i < numberOfProducer; i++) {
-            Thread thread = new Thread(new Producer(pool));
+            Thread thread = new Thread(() -> {
+                try {
+                    buffer.produce();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
             thread.start();
         }
+
         for (int i = 0; i < numberOfConsumer; i++) {
-            Thread thread = new Thread(new Consumer(pool));
+            Thread thread = new Thread(() -> {
+                try {
+                    buffer.consume();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
             thread.start();
+
         }
-        //System.out.println(pool);
-        Thread.sleep(1000);
-        System.out.println("Modifications count = " + Task.modificationsCount);
-        System.out.println("Produce count = " + Producer.produceCount);
     }
-
-
 }
