@@ -16,7 +16,7 @@ public class Runner {
         numberOfProducer = scanner.nextInt();
         scanner.close();
 
-        TaskBoard buffer = new TaskBoard(
+        TaskBoard pool = new TaskBoard(
                 Stream.of(numberOfConsumer, numberOfProducer)
                 .max(Integer::compareTo)
                 .get()
@@ -24,7 +24,7 @@ public class Runner {
         for (int i = 0; i < numberOfProducer; i++) {
             Thread thread = new Thread(() -> {
                 try {
-                    buffer.produce();
+                    pool.produce();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -35,7 +35,7 @@ public class Runner {
         for (int i = 0; i < numberOfConsumer; i++) {
             Thread thread = new Thread(() -> {
                 try {
-                    buffer.consume();
+                    pool.consume();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
