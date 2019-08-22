@@ -1,6 +1,6 @@
-package by.epam.training.extendedCAndP.model;
+package by.epam.training.task7.extendedCAndP;
 
-import by.epam.training.extendedCAndP.model.model.TaskBoard;
+import by.epam.training.task7.extendedCAndP.model.TaskBoard;
 
 public class Consumer implements Runnable {
     private TaskBoard taskBoard;

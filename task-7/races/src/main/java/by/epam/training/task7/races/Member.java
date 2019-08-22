@@ -1,4 +1,4 @@
-package by.epam.training.races;
+package by.epam.training.task7.races;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +23,7 @@ public class Member implements Runnable{
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName() + " an the start");
+        System.out.println(Thread.currentThread().getName() + " an the start with speed = " + speed);
         try {
             gate.await();
         } catch (InterruptedException | BrokenBarrierException e) {

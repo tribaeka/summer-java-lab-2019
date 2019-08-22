@@ -1,4 +1,4 @@
-package by.epam.training.extendedCAndP.model.model;
+package by.epam.training.task7.extendedCAndP.model;
 
 public class TaskB extends Task{
 

@@ -1,4 +1,4 @@
-package by.epam.training.races;
+package by.epam.training.task7.races;
 
 import java.util.Scanner;
 import java.util.concurrent.BrokenBarrierException;

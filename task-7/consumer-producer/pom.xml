@@ -14,6 +14,5 @@
     <modules>
         <module>basicTask</module>
         <module>extendedTask</module>
-        <module>races</module>
     </modules>
 </project>
