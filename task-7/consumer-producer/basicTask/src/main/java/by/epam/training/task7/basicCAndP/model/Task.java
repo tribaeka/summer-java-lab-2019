@@ -1,4 +1,4 @@
-package by.epam.training.task7.basicCAndP;
+package by.epam.training.task7.basicCAndP.model;
 
 public class Task {
     private int number;

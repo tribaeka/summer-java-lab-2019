@@ -24,13 +24,11 @@ public class Runner {
                 .get()
         );
         for (int i = 0; i < numberOfProducer; i++) {
-            Thread thread = new Thread(new Producer(pool));
-            thread.start();
+            new Thread(new Producer(pool)).start();
         }
 
         for (int i = 0; i < numberOfConsumer; i++) {
-            Thread thread = new Thread(new Consumer(pool));
-            thread.start();
+            new Thread(new Consumer(pool)).start();
 
         }
     }

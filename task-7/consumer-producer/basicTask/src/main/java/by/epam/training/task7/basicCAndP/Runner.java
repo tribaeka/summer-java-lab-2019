@@ -1,5 +1,7 @@
 package by.epam.training.task7.basicCAndP;
 
+import by.epam.training.task7.basicCAndP.model.TaskBoard;
+
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -22,25 +24,11 @@ public class Runner {
                 .get()
         );
         for (int i = 0; i < numberOfProducer; i++) {
-            Thread thread = new Thread(() -> {
-                try {
-                    pool.produce();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            thread.start();
+            new Thread(new Producer(pool)).start();
         }
 
         for (int i = 0; i < numberOfConsumer; i++) {
-            Thread thread = new Thread(() -> {
-                try {
-                    pool.consume();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            thread.start();
+            new Thread(new Consumer(pool)).start();
 
         }
     }

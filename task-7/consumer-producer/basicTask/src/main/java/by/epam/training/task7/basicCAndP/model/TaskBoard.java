@@ -1,4 +1,4 @@
-package by.epam.training.task7.basicCAndP;
+package by.epam.training.task7.basicCAndP.model;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

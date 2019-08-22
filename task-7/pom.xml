@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>consumer-producer</module>
-        <module>races</module>
     </modules>
 
     <build>
