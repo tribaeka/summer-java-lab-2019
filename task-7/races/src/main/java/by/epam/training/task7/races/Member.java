@@ -23,7 +23,7 @@ public class Member implements Runnable{
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName() + " an the start with speed = " + speed);
+        logger.info(Thread.currentThread().getName() + " an the start with speed = " + speed);
         try {
             gate.await();
         } catch (InterruptedException | BrokenBarrierException e) {

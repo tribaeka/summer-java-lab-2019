@@ -16,7 +16,7 @@ public class Runner {
         System.out.println("Length of track:");
         lengthOfTrack = scanner.nextInt();
         scanner.close();
-        final CyclicBarrier gate = new CyclicBarrier(numberOfMembers);
+        final CyclicBarrier gate = new CyclicBarrier(numberOfMembers + 1);
 
         for (int i = 0; i < numberOfMembers; i++) {
             new Thread(new Member(gate, lengthOfTrack)).start();
