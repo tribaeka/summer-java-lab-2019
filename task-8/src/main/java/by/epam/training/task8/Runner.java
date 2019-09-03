@@ -11,15 +11,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class Runner {
-    private static final String XML_PATH = "/Users/tribaeka/summer-java-lab-2019-yahor-hlushak/task-8/src/main/resources/shema/test5.xml";
-    private static final String XSD_PATH = "/Users/tribaeka/summer-java-lab-2019-yahor-hlushak/task-8/src/main/resources/shema/event.xsd";
+    private static final String XML_PATH = "schema/test5.xml";
+    private static final String XSD_PATH = "schema/event.xsd";
     public static void main(String[] args) throws IOException {
         System.out.println("Xml to xsd matching ->" + checkXmlForXSD());
     }
 
     private static boolean checkXmlForXSD() throws IOException {
-        File xml = new File(XML_PATH);
-        File xsd = new File(XSD_PATH);
+        ClassLoader loader = Runner.class.getClassLoader();
+        File xml = new File(loader.getResource(XML_PATH).getFile());
+        File xsd = new File(loader.getResource(XSD_PATH).getFile());
 
         if (!xml.exists()) {
             System.out.println("Xml file not exist");
@@ -35,12 +36,15 @@ public class Runner {
 
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(new StreamSource(XSD_PATH));
+            Schema schema = factory.newSchema(new StreamSource(loader.getResource(XSD_PATH).getPath()));
             Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(XML_PATH));
+            validator.validate(new StreamSource(loader.getResource(XML_PATH).getPath()));
             return true;
         } catch (SAXException e) {
             System.out.println(e.getMessage());
+            return false;
+        }catch (NullPointerException npe){
+            System.out.println("Bad classpath: " + npe.getMessage());
             return false;
         }
     }
