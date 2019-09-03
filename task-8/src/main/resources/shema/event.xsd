@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+     <xs:simpleType name="imgfile">
+         <xs:restriction base="xs:string">
+             <xs:pattern value="(\S+)(\.)(jpg|png)$"/>
+         </xs:restriction>
+     </xs:simpleType>
+    <xs:simpleType name="date">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0,1]{1}[0-9]{1}/[0-3]{1}[0-9]{1}/[0-9]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="position">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(center|centered|left|right)"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:element name="event">
         <xs:complexType>
             <xs:sequence>
@@ -30,7 +45,7 @@
                                         <xs:element name="para" maxOccurs="unbounded" minOccurs="0">
                                             <xs:complexType mixed="true">
                                                 <xs:sequence>
-                                                    <xs:element type="xs:string" name="date" minOccurs="0"/>
+                                                    <xs:element type="date" name="date" minOccurs="0"/>
                                                 </xs:sequence>
                                                 <xs:attribute type="xs:string" name="type" use="optional"/>
                                             </xs:complexType>
@@ -46,9 +61,7 @@
                                             <xs:complexType>
                                                 <xs:simpleContent>
                                                     <xs:extension base="xs:string">
-                                                        <xs:attribute type="xs:string" name="source">
-                                                            <xs:pattern value=""></xs:pattern>
-                                                        </xs:attribute>
+                                                        <xs:attribute type="imgfile" name="source"/>
                                                         <xs:attribute type="xs:string" name="description"/>
                                                     </xs:extension>
                                                 </xs:simpleContent>
@@ -77,7 +90,7 @@
                             </xs:element>
                             <xs:element type="xs:string" name="h1" minOccurs="0"/>
                         </xs:sequence>
-                        <xs:attribute type="xs:string" name="position" use="optional"/>
+                        <xs:attribute type="position" name="position" use="optional"/>
                         <xs:attribute type="xs:string" name="type" use="optional"/>
                     </xs:complexType>
                 </xs:element>

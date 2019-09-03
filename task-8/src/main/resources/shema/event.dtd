@@ -1,9 +1,11 @@
 <!ELEMENT event (heading+, external-link, doc-level+)>
-<!ELEMENT heading (#PCDATA)>
-<!ELEMENT external-link (#PCDATA)>
-<!ELEMENT doc-level (doc-level+, para, h1)>
-<!ELEMENT h1 (#PCDATA)>
-<!ELEMENT para (#PCDATA, date, list-item, num)>
-<!ELEMENT date (#PCDATA)>
-<!ELEMENT num (#PCDATA)>
-<!ELEMENT list-item (#PCDATA, para)>
+    <!ELEMENT heading (#PCDATA)>
+    <!ELEMENT external-link (#PCDATA)>
+    <!ELEMENT doc-level (doc-level*, para, h1?)>
+    <!ELEMENT h1 (#PCDATA)>
+    <!ELEMENT para (#PCDATA|date|(list-item)|num)*>
+        <!ELEMENT date (#PCDATA)>
+        <!ELEMENT num (#PCDATA)>
+    <!ELEMENT list-item (#PCDATA|para)>
+
+
