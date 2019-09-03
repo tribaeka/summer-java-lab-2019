@@ -3,9 +3,9 @@
     <!ELEMENT external-link (#PCDATA)>
     <!ELEMENT doc-level (doc-level*, para, h1?)>
     <!ELEMENT h1 (#PCDATA)>
-    <!ELEMENT para (#PCDATA|date|(list-item)|num)*>
+    <!ELEMENT para (#PCDATA|date|num|list-item)*>
         <!ELEMENT date (#PCDATA)>
         <!ELEMENT num (#PCDATA)>
-    <!ELEMENT list-item (#PCDATA|para)>
+        <!ELEMENT list-item (#PCDATA|para)*>
 
 
