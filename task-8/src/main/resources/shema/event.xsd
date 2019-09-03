@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="event">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="heading" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute type="xs:string" name="type" use="optional"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="external-link">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute type="xs:anyURI" name="source"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="doc-level" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="doc-level" maxOccurs="unbounded" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="para" maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType mixed="true">
+                                                <xs:sequence>
+                                                    <xs:element type="xs:string" name="date" minOccurs="0"/>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="type" use="optional"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="position" use="optional"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="para">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="image" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute type="xs:string" name="source">
+                                                            <xs:pattern value=""></xs:pattern>
+                                                        </xs:attribute>
+                                                        <xs:attribute type="xs:string" name="description"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="list-item" maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType mixed="true">
+                                                <xs:sequence>
+                                                    <xs:element name="para" minOccurs="0">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:string" name="list-item" maxOccurs="unbounded" minOccurs="0"/>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="type"/>
+                                                            <xs:attribute type="xs:string" name="style"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element type="xs:short" name="num" minOccurs="0"/>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="type" use="optional"/>
+                                    <xs:attribute type="xs:string" name="style" use="optional"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element type="xs:string" name="h1" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="position" use="optional"/>
+                        <xs:attribute type="xs:string" name="type" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:integer" name="id"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
