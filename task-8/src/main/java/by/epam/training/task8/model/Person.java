@@ -1,13 +1,15 @@
-package by.epam.training.task8;
+package by.epam.training.task8.model;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Person {
+
     private int id;
     private String surname;
     private String name;
-    private LocalDate birthday;
-    private String birthplace;
+    private Birthday birthday;
+    private Birthplace birthplace;
     private String work;
 
     public int getId() {
@@ -35,19 +37,19 @@ public class Person {
     }
 
     public LocalDate getBirthday() {
-        return birthday;
+        return LocalDate.of(birthday.getYear(), birthday.getMonth(), birthday.getDay());
     }
 
     public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+        this.birthday = new Birthday(birthday.getDayOfMonth(), birthday.getMonthValue(), birthday.getYear());
     }
 
     public String getBirthplace() {
-        return birthplace;
+        return birthplace.getCity();
     }
 
     public void setBirthplace(String birthplace) {
-        this.birthplace = birthplace;
+        this.birthplace = new Birthplace(birthplace);
     }
 
     public String getWork() {
@@ -56,6 +58,10 @@ public class Person {
 
     public void setWork(String work) {
         this.work = work;
+    }
+
+    public int getAge(){
+        return Period.between(getBirthday(), LocalDate.now()).getYears();
     }
 
     @Override

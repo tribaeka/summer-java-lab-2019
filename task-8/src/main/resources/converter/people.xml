@@ -1,57 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?><people>
-    <person ID="1">
-        <surname>Petrov</surname>
-        <name>Petr</name>
-        <birthday>
-            <day>5</day>
-            <month>01</month>
-            <year>1993</year>
-        </birthday>
-        <birthplace city="Minsk"/>
-        <work>EPAM</work>
-    </person>
-    <person ID="2">
-        <surname>Ivanov</surname>
-        <name>Ivan</name>
-        <birthday>
-            <day>7</day>
-            <month>02</month>
-            <year>1991</year>
-        </birthday>
-        <birthplace city="Gomel"/>
-        <work>ihsbq</work>
-    </person>
-    <person ID="5">
-        <surname>somesurname</surname>
-        <name>somename</name>
-        <birthday>
-            <day>4</day>
-            <month>09</month>
-            <year>2019</year>
-        </birthday>
-        <birthplace city="somebrithplace"/>
-        <work>somework</work>
-    </person>
-    <person ID="3">
-        <surname>Aleksandrov</surname>
-        <name>Aleksandr</name>
-        <birthday>
-            <day>15</day>
-            <month>12</month>
-            <year>1985</year>
-        </birthday>
-        <birthplace city="Minsk"/>
-        <work>EPAM</work>
-    </person>
-    <person ID="4">
-        <surname>Ivashkin</surname>
-        <name>Andrei</name>
-        <birthday>
-            <day>3</day>
-            <month>01</month>
-            <year>1992</year>
-        </birthday>
-        <birthplace city="Gomel"/>
-        <work>IBA</work>
-    </person>
+<?xml version="1.0" encoding="UTF-8"?>
+<people>
+	<person ID="1">
+		<surname>Petrov</surname>
+		<name>Petr</name>
+		<birthday>
+			<day>5</day>
+			<month>01</month>
+			<year>1993</year>
+		</birthday>
+		<birthplace city="Minsk"/>
+		<work>EPAM</work>
+	</person>
+	<person ID="2">
+		<surname>Ivanov</surname>
+		<name>Ivan</name>
+		<birthday>
+			<day>7</day>
+			<month>02</month>
+			<year>1991</year>
+		</birthday>
+		<birthplace city="Gomel"/>
+		<work>IBA</work>
+	</person>
+	<person ID="3">
+		<surname>Aleksandrov</surname>
+		<name>Aleksandr</name>
+		<birthday>
+			<day>15</day>
+			<month>12</month>
+			<year>1985</year>
+		</birthday>
+		<birthplace city="Minsk"/>
+		<work>EPAM</work>
+	</person>
+	<person ID="4">
+		<surname>Ivashkin</surname>
+		<name>Andrei</name>
+		<birthday>
+			<day>3</day>
+			<month>01</month>
+			<year>1992</year>
+		</birthday>
+		<birthplace city="Gomel"/>
+		<work>IBA</work>
+	</person>
 </people>
