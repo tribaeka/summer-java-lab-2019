@@ -8,7 +8,9 @@
     <artifactId>hlushak-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-
+    <properties>
+        <docker.maintainer>Yahor-Hlushak</docker.maintainer>
+    </properties>
     <modules>
         <module>task-1</module>
         <module>cafe</module>
