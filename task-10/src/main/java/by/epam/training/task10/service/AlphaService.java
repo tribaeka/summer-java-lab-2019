@@ -33,6 +33,7 @@ public class AlphaService {
         try(ResultSet rs = db.runSqlGetBooksTitleById(id)){
             while (rs.next()){
                 title = rs.getString("title");
+                rs.getStatement().close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,10 +73,10 @@ public class AlphaService {
                 chapter.setContent(rs.getString("content"));
                 chapter.setUpload_date(rs.getString("upload_date"));
             }
+            rs.getStatement().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return chapter;
     }
-
 }
