@@ -57,19 +57,19 @@ CREATE TABLE reader_card (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE chapter
-  ADD CONSTRAINT chapter_in_book_fk foreign key (book_id) references book (id_book);
+  ADD CONSTRAINT chapter_in_book_fk FOREIGN KEY (book_id) REFERENCES book (id_book);
 ALTER TABLE book
-  ADD CONSTRAINT book_author_fk foreign key (author_id) references author (id_author);
+  ADD CONSTRAINT book_author_fk FOREIGN KEY (author_id) REFERENCES author (id_author);
 
 ALTER TABLE genre_book
-  ADD CONSTRAINT book_to_book_genre_fk foreign key (book_id) references book (id_book);
+  ADD CONSTRAINT book_to_book_genre_fk FOREIGN KEY (book_id) REFERENCES book (id_book);
 ALTER TABLE genre_book
-  ADD CONSTRAINT genre_to_book_genre_fk foreign key (genre_id) references genre (id_genre);
+  ADD CONSTRAINT genre_to_book_genre_fk FOREIGN KEY (genre_id) REFERENCES genre (id_genre);
 
 ALTER TABLE reader_card
-  ADD CONSTRAINT book_to_reader_card_fk foreign key (book_id) references book (id_book);
+  ADD CONSTRAINT book_to_reader_card_fk FOREIGN KEY (book_id) REFERENCES book (id_book);
 ALTER TABLE reader_card
-  ADD CONSTRAINT user_to_reader_card_fk foreign key (user_id) references user (id_user);
+  ADD CONSTRAINT user_to_reader_card_fk FOREIGN KEY (user_id) REFERENCES user (id_user);
 
 INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Cocooned', 'Cow');
 INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Mars', 'Gravity');
