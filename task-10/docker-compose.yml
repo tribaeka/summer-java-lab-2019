@@ -6,11 +6,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-    expose:
-        - 8083
-    build: src/main/resources
-
-  app:
-    image: task_10_app
+      MYSQL_ROOT_PASSWORD: 924462
+    ports:
+      - 8083:3306
     build: .

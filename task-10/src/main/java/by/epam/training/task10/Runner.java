@@ -2,20 +2,20 @@ package by.epam.training.task10;
 
 import by.epam.training.task10.model.Database;
 import by.epam.training.task10.model.User;
-import by.epam.training.task10.service.AlphaService;
+
+import java.sql.SQLException;
 
 public class Runner {
-    public static void main(String[] args) {
-        Database library = new Database("jdbc:mysql://localhost:8083/library",
-                "root", "root");
-        /*AlphaService service = new AlphaService(library);
+    public static void main(String[] args) throws SQLException {
+        Database library = new Database("jdbc:mysql://0.0.0.0:8083/library",
+                "root", "924462");
         String genreForTest = "Adventure";
         User user = new User("test_name", "test_password", "test_email");
-        service.addUser(user);
-        service.updateChapterTitle(service.getRandomChapter(), "newTitle");
-        service.deleteChapter(service.getRandomChapter());
-        for(Integer id : service.getBooksIdByGenre(genreForTest)){
-            System.out.println(service.getBooksTitleById(id));
-        }*/
+        library.runAddUserSql(user);
+        library.runSqlUpdateChapterTitle(library.runSqlSelectRandomChapter(), "newTitle");
+        library.runSqlDeleteChapter(library.runSqlSelectRandomChapter());
+        for(Integer id : library.runSqlSelectAllBooksByGenre(genreForTest)){
+            System.out.println(library.runSqlGetBooksTitleById(id));
+        }
     }
 }
