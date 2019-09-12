@@ -10,6 +10,7 @@ public class Database {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             this.conn = DriverManager.getConnection(url, user_name, password);
+            System.out.println("---CONNECTED!---");
         } catch (Exception e) {
             e.printStackTrace();
         }
