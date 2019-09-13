@@ -1,6 +1,13 @@
 package by.epam.training.task11.model;
 
+import by.epam.training.task11.annotations.After;
+import by.epam.training.task11.annotations.Before;
+
+@Before(message = "before class")
+@After(message = "after class")
 public class Post implements IMetaService {
+    @After(message = "after info")
+    @Before(message = "before info")
     public void printMetadataInfo() {
         System.out.println("\tPost info");
     }
