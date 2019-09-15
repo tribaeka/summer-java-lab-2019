@@ -1,9 +1,6 @@
 package by.epam.training.task11.model;
 
-import by.epam.training.task11.annotations.After;
-import by.epam.training.task11.annotations.AfterRepeatable;
-import by.epam.training.task11.annotations.Before;
-import by.epam.training.task11.annotations.BeforeRepeatable;
+import by.epam.training.task11.annotations.*;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -20,10 +17,12 @@ public class ProxyPost implements InvocationHandler {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        Optional<Ignore> ignore = Optional.ofNullable(post.getClass().getMethod(method.getName())
+                .getAnnotation(Ignore.class));
+        if (ignore.isPresent()) return method.invoke(post, args);
         doBefore(method);
         method.invoke(post, args);
         doAfter(method);
-
         return null;
     }
 
