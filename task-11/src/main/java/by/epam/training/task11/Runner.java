@@ -16,8 +16,6 @@ public class Runner {
                 Post.class.getInterfaces(),
                 new ProxyPost(post)
                 );
-        Method method = post.getClass().getMethod("printMetadataInfo");
-        System.out.println(method.getAnnotation(Before.class).message() + "<-- from runner");
         postProxy.printMetadataInfo();
         postProxy.printMetadataBuilder();
     }
