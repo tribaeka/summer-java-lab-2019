@@ -20,6 +20,9 @@ public class ProxyPost implements InvocationHandler {
         Optional<Ignore> ignore = Optional.ofNullable(post.getClass().getMethod(method.getName())
                 .getAnnotation(Ignore.class));
         if (ignore.isPresent()) return method.invoke(post, args);
+        Optional<ThrowException> throwException = Optional.ofNullable(post.getClass().getMethod(method.getName())
+                .getAnnotation(ThrowException.class));
+        if (throwException.isPresent()) throw new NotSupportedMethodException();
         doBefore(method);
         method.invoke(post, args);
         doAfter(method);
