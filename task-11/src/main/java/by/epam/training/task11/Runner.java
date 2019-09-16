@@ -1,22 +1,24 @@
 package by.epam.training.task11;
 
-import by.epam.training.task11.annotations.Before;
-import by.epam.training.task11.model.IMetaService;
-import by.epam.training.task11.model.Post;
-import by.epam.training.task11.model.ProxyPost;
+import by.epam.training.task11.model.*;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class Runner {
-    public static void main(String[] args) throws NoSuchMethodException {
-        Post post = new Post();
+    public static void main(String[] args){
         IMetaService postProxy = (IMetaService) Proxy.newProxyInstance(
                 Post.class.getClassLoader(),
                 Post.class.getInterfaces(),
-                new ProxyPost(post)
+                new ProxyService(new Post())
                 );
         postProxy.printMetadataInfo();
         postProxy.printMetadataBuilder();
+        ITimeService blogProxy = (ITimeService) Proxy.newProxyInstance(
+                Blog.class.getClassLoader(),
+                Blog.class.getInterfaces(),
+                new ProxyService(new Blog())
+        );
+        blogProxy.printTimeBuilder();
+        blogProxy.printTimeUser();
     }
 }

@@ -2,6 +2,8 @@ package by.epam.training.task11.model;
 
 import by.epam.training.task11.annotations.After;
 import by.epam.training.task11.annotations.Before;
+import by.epam.training.task11.annotations.Ignore;
+import by.epam.training.task11.annotations.ThrowException;
 
 @Before(message = "before class1")
 @Before(message = "before class2")
@@ -9,7 +11,7 @@ import by.epam.training.task11.annotations.Before;
 @After(message = "after class")
 @After(message = "after class")
 @After(message = "after class")
-public class Post implements IMetaService {
+public class Post extends Service implements IMetaService{
     @After(message = "after info1")
     @After(message = "after info2")
     @After(message = "after info3")

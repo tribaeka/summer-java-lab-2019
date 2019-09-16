@@ -4,5 +4,5 @@ public interface ITimeService {
     void printTimeInfo();
     void printTimeExpiredTime();
     void printTimeUser();
-    void prinTimeBuilder();
+    void printTimeBuilder();
 }
