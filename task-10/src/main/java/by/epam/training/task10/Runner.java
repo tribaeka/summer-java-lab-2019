@@ -6,9 +6,10 @@ import by.epam.training.task10.model.User;
 import java.sql.SQLException;
 
 public class Runner {
+    private static final String NATIVE_PASSWORD = "924462";
     public static void main(String[] args) throws SQLException {
-        Database library = new Database("jdbc:mysql://0.0.0.0:8083/library",
-                "root", "924462");
+        Database library = new Database("jdbc:mysql://localhost:8083/library",
+                "root", NATIVE_PASSWORD);
         String genreForTest = "Adventure";
         User user = new User("test_name", "test_password", "test_email");
         library.runAddUserSql(user);
