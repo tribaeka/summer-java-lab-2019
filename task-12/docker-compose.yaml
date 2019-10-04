@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-container
+    hostname: mysql-container
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: task12
+    ports:
+      - 3310:3306
+  app:
+    image: task12-app
+    build: .
+    depends_on:
+      - db
+    ports:
+      - 8088:8080
