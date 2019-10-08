@@ -28,6 +28,18 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/webapp</directory>
+                <targetPath>${project.build.outputDirectory}</targetPath>
+                <includes>
+                    <include>app.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/webapp/WEB-INF/views/</directory>
+            </resource>
+        </resources>
     </build>
     <packaging>war</packaging>
     <dependencies>

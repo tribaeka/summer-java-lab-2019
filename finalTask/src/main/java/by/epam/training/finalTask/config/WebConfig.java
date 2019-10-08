@@ -3,7 +3,9 @@ package by.epam.training.finalTask.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
@@ -11,7 +13,12 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "by.epam.training.finalTask.controller")
+@PropertySource("classpath:app.properties")
 public class WebConfig implements WebMvcConfigurer {
+
+    //@Value("${upload.path}")
+    //private String uploadPath;
+
     @Bean
     public FreeMarkerViewResolver getFreemarkerViewResolver() {
         FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
@@ -27,5 +34,13 @@ public class WebConfig implements WebMvcConfigurer {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
         freeMarkerConfigurer.setTemplateLoaderPaths("/", "/WEB-INF/views/ftl/");
         return freeMarkerConfigurer;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
+        //registry.addResourceHandler("/img/**")
+        //        .addResourceLocations("file://" + uploadPath + "/");
     }
 }
