@@ -20,14 +20,7 @@
                 <a class="nav-link" href="#">New</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <#if user??>
-                        <img src="${user.photoPath}" width="32" height="32" class="rounded-circle" alt="">
-                    </#if>
-                    <#if !user??>
-                        <img src="/static/img/user_default.png" width="32" height="32" alt="">
-                    </#if>
-                </a>
+                <a class="nav-link" href="/user/profile">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">

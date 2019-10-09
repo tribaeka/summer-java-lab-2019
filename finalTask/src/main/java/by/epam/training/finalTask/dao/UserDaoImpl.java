@@ -21,4 +21,10 @@ public class UserDaoImpl implements UserDao {
         String sql = "SELECT * FROM user";
         return jdbcTemplate.query(sql, new UserMapper());
     }
+
+    @Override
+    public User findByUsername(String username) {
+        String sql = "SELECT * FROM user WHERE username = '" + username + "';";
+        return jdbcTemplate.queryForObject(sql, new UserMapper());
+    }
 }

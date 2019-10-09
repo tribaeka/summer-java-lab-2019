@@ -136,15 +136,15 @@ INSERT INTO chapter(id_chapter, title, content, book_id)
 
 
 INSERT INTO user(id_user, username, password, email, image_path, active)
-  VALUE (NULL, 'andrei123', 'adrei123', 'adrei123@gmail.com', '/static/img/user_default.png', 0);
+  VALUE (NULL, 'andrei123', '$2a$08$NNpjbMFu0K5qztiF0uhI4uPWyRwgVvjiAFSO5UthJPZlf3.gdU/sC', 'adrei123@gmail.com', '/static/img/user_default.png', 1);
 INSERT INTO user(id_user, username, password, email, image_path, active)
-  VALUE (NULL, 'egor456', 'egor456', 'egor44@gmail.com', '/static/img/user_default.png', 0);
+  VALUE (NULL, 'egor456', '$2a$08$N4ARQ1OyIUSPax2KkudnDeswYX9tBPKFp26zeff0W8R.0h5g/RLzO', 'egor44@gmail.com', '/static/img/user_default.png', 1);
 INSERT INTO user(id_user, username, password, email, image_path, active)
-  VALUE (NULL, 'keekes', 'keekes123', 'keeks123@gmail.com', '/static/img/user_default.png', 0);
+  VALUE (NULL, 'keekes', '$2a$08$rdit18BN2id2Z5sCy6Opw.pkbNEpVbzmeRwEHFadq1CW8Z/7mrfWK', 'keeks123@gmail.com', '/static/img/user_default.png', 1);
 INSERT INTO user(id_user, username, password, email, image_path, active)
-  VALUE (NULL, 'omef', 'omef', 'omef53@gmail.com', '/static/img/user_default.png', 0);
+  VALUE (NULL, 'omef', '$2a$08$K9IqyzY3Ybnzo6ZuAFXFW.uXb2VZjdQdVUpxiNJnv8WZ9XRBcGBIK', 'omef53@gmail.com', '/static/img/user_default.png', 1);
 INSERT INTO user(id_user, username, password, email, image_path, active)
-  VALUE (NULL, 'tremev', 'tremev', 'tremeva@gmail.com', '/static/img/user_default.png', 0);
+  VALUE (NULL, 'tremev', '$2a$08$DRu8LmFORz.tcisSbFggWuBFjN5sMC51Ekc.M6kq6FVW9GqvmlHoC', 'tremeva@gmail.com', '/static/img/user_default.png', 1);
 
 
 INSERT INTO genre_book(genre_id, book_id) VALUE (2, 1);

@@ -16,6 +16,7 @@ public class UserMapper implements RowMapper<User> {
         user.setEmail(resultSet.getString("email"));
         user.setImagePath(resultSet.getString("image_path"));
         user.setActive(resultSet.getBoolean("active"));
+        System.out.println(user + " fond user ->" + user);
         return user;
     }
 }
