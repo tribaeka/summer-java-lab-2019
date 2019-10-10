@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserDao {
     List<User> findAll();
     User findByUsername(String username);
+    void addUser(User user);
+    void updateUsersImagePath(User user);
 }

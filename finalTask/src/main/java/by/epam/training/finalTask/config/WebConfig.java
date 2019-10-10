@@ -1,5 +1,6 @@
 package by.epam.training.finalTask.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,8 +16,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @Import({ SecurityConfig.class })
 public class WebConfig implements WebMvcConfigurer {
 
-    //@Value("${upload.path}")
-    //private String uploadPath;
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @Bean
     public FreeMarkerViewResolver getFreemarkerViewResolver() {
@@ -45,7 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
-        //registry.addResourceHandler("/img/**")
-        //        .addResourceLocations("file://" + uploadPath + "/");
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file://" + uploadPath + "/");
     }
 }

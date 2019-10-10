@@ -20,6 +20,10 @@ public class User implements UserDetails {
     private String imagePath;
     private boolean active;
 
+    public int isActiveInInt(){
+        if (active) return 1;
+        else return 0;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(Role.USER);
