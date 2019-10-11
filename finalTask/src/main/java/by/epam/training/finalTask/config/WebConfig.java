@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = "by.epam.training.finalTask.controller")
+@ComponentScan(basePackages = "by.epam.training.finalTask")
 @PropertySource("classpath:app.properties")
 @Import({ SecurityConfig.class })
 public class WebConfig implements WebMvcConfigurer {

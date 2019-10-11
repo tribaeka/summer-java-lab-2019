@@ -1,7 +1,6 @@
 package by.epam.training.finalTask.config;
 
-import by.epam.training.finalTask.dao.UserDao;
-import by.epam.training.finalTask.dao.UserDaoImpl;
+import by.epam.training.finalTask.dao.*;
 import by.epam.training.finalTask.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = "by.epam.training.finalTask.controller")
+@ComponentScan(basePackages = "by.epam.training.finalTask")
 public class SpringConfig {
 
     @Bean
@@ -35,6 +34,21 @@ public class SpringConfig {
     @Bean
     public UserDao getUserDao(){
         return new UserDaoImpl(getJdbcTemplate());
+    }
+
+    @Bean
+    public BookDao getBookDao(){
+        return new BookDaoImpl(getJdbcTemplate());
+    }
+
+    @Bean
+    public ChapterDao getChapterDao(){
+        return new ChapterDaoImpl(getJdbcTemplate());
+    }
+
+    @Bean
+    public GenreDao getGenreDao(){
+        return new GenreDaoImpl(getJdbcTemplate());
     }
 
     @Bean

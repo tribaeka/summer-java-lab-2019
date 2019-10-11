@@ -14,7 +14,7 @@ CREATE TABLE book (
                     title varchar(100) NOT NULL,
                     description text NOT NULL,
                     image_path varchar(255) NOT NULL,
-                    rating int(2) NOT NULL,
+                    rating double NOT NULL,
                     author_id int(11) NOT NULL,
                     PRIMARY KEY (id_book)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -132,7 +132,11 @@ INSERT INTO chapter(id_chapter, title, content, book_id)
 INSERT INTO chapter(id_chapter, title, content, book_id)
   VALUE (NULL, 'Chapter 1 - Sold', '8k letters+ big content-Sold', 2);
 INSERT INTO chapter(id_chapter, title, content, book_id)
-  VALUE (NULL, 'Chapter 1 - Frustration', '8k letters+ big content-Frustration', 3);
+  VALUE (NULL, 'Chapter 2 - Second', '8k letters+ big content-Second', 3);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 3 - Third', '8k letters+ big content-Third', 3);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 4 - Fourth', '8k letters+ big content-Fourth', 3);
 
 
 INSERT INTO user(id_user, username, password, email, image_path, active)

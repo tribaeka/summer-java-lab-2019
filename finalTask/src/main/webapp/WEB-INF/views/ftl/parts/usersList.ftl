@@ -1,4 +1,4 @@
-<#import "parts/common.ftl" as c>
+<#import "common.ftl" as c>
 
 <@c.page "Users">
     <h2>List of users</h2>

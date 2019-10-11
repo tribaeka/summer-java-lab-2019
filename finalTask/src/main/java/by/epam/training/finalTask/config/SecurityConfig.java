@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = "by.epam.training.finalTask.controller")
+@ComponentScan(basePackages = "by.epam.training.finalTask")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
