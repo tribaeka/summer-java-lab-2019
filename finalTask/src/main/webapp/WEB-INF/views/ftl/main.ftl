@@ -10,7 +10,7 @@
                     <h5>M O R E</h5>
                 </a>
             </div>
-        <hr style="border: 1px solid red;">
+        <hr class="underline">
         <@b.bookList false/>
         </div>
     </div>

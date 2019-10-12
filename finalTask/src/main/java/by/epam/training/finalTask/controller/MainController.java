@@ -1,6 +1,5 @@
 package by.epam.training.finalTask.controller;
 
-import by.epam.training.finalTask.entity.Book;
 import by.epam.training.finalTask.entity.User;
 import by.epam.training.finalTask.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +31,7 @@ public class MainController {
         }
         System.out.println("on main page with user = " + user);
         model.addAttribute("books", bookService.latestBooks());
-        for (Book book : bookService.latestBooks()){
-            System.out.println(book.getLastChapter().getTimeAfterUpdating());
-        }
+
         return "main";
     }
 }

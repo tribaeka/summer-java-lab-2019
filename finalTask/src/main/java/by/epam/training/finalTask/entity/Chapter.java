@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -23,5 +24,9 @@ public class Chapter {
             if (pastHours > 0) return pastHours + " hours ago";
             else return "less than an hour";
         }else return "more than a day ago";
+    }
+
+    public String getFormatedUploadDate(){
+        return uploadDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 }

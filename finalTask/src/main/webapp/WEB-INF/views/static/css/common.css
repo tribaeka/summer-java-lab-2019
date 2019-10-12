@@ -1,0 +1,24 @@
+.card-title-link{
+    text-decoration: none;
+    color: black;
+}
+
+.card-title-link:hover{
+    text-decoration: none;
+    color: #dc3545;
+}
+
+.underline{
+    border: 1px solid #dc3545;
+}
+
+.chapter-link{
+    text-decoration: none;
+    color: black;
+}
+
+.chapter-link:hover{
+    text-decoration: none;
+    color: black;
+    background-color: #eeedee;
+}

@@ -15,7 +15,9 @@
                     <div class="col-10">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <h5 class="card-title">${book.title}</h5>
+                                <h5 class="card-title">
+                                    <a href="/book/${book.titleToUrl()}" class="card-title-link">${book.title}</a>
+                                </h5>
                                 <p class="text-secondary">
                                     <small>${book.getLastChapter().getTimeAfterUpdating()}</small>
                                 </p>

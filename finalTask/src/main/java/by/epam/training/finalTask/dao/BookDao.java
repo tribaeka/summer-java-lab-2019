@@ -5,4 +5,5 @@ import by.epam.training.finalTask.entity.Chapter;
 
 public interface BookDao {
     Book findBookByChapter(Chapter chapter);
+    Book findBookByTitle(String title);
 }

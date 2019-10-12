@@ -18,7 +18,7 @@ public class Book {
     private String description;
     private String imagePath;
     private double rating;
-    private Integer authorId;
+    private String author;
     private List<Genre> genres = new ArrayList<>();
     private List<Chapter> chapters = new ArrayList<>();
 
@@ -34,5 +34,9 @@ public class Book {
                     }
                 })
                 .get();
+    }
+
+    public String titleToUrl(){
+        return title.toLowerCase().replaceAll(" ", "-");
     }
 }

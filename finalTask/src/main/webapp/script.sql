@@ -2,20 +2,13 @@ CREATE DATABASE library;
 
 USE library;
 
-CREATE TABLE author (
-                      id_author int(11) NOT NULL AUTO_INCREMENT,
-                      firstname varchar(100) NOT NULL,
-                      lastname varchar(100) NOT NULL,
-                      PRIMARY KEY (id_author)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE book (
                     id_book int(11) NOT NULL AUTO_INCREMENT,
                     title varchar(100) NOT NULL,
                     description text NOT NULL,
                     image_path varchar(255) NOT NULL,
                     rating double NOT NULL,
-                    author_id int(11) NOT NULL,
+                    author varchar(100) NOT NULL,
                     PRIMARY KEY (id_book)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -58,8 +51,6 @@ CREATE TABLE reader_card (
 
 ALTER TABLE chapter
   ADD CONSTRAINT chapter_in_book_fk FOREIGN KEY (book_id) REFERENCES book (id_book);
-ALTER TABLE book
-  ADD CONSTRAINT book_author_fk FOREIGN KEY (author_id) REFERENCES author (id_author);
 
 ALTER TABLE genre_book
   ADD CONSTRAINT book_to_book_genre_fk FOREIGN KEY (book_id) REFERENCES book (id_book);
@@ -71,12 +62,6 @@ ALTER TABLE reader_card
 ALTER TABLE reader_card
   ADD CONSTRAINT user_to_reader_card_fk FOREIGN KEY (user_id) REFERENCES user (id_user);
 
-INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Cocooned', 'Cow');
-INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Mars', 'Gravity');
-INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Butterfly ', 'Blue');
-INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Fuse', '');
-INSERT INTO author (id_author, firstname, lastname) VALUE (NULL, 'Drunken', 'Tiger');
-
 
 INSERT INTO genre (id_genre, title) VALUE (NULL, 'Action');
 INSERT INTO genre (id_genre, title) VALUE (NULL, 'Adventure');
@@ -85,42 +70,42 @@ INSERT INTO genre (id_genre, title) VALUE (NULL, 'Drama');
 INSERT INTO genre (id_genre, title) VALUE (NULL, 'Fantasy');
 
 
-INSERT INTO book (id_book, title, description, image_path, rating, author_id)
+INSERT INTO book (id_book, title, description, image_path, rating, author)
   VALUE (NULL,
          'PEERLESS MARTIAL GOD',
          'Suddenly he opens his eyes again. He is not dead, but alive in the body of the Lin Feng of a different world.',
          '/static/img/book_default.png',
          0,
-         1);
-INSERT INTO book (id_book, title, description, image_path, rating, author_id)
+         'Jing Wu Hen');
+INSERT INTO book (id_book, title, description, image_path, rating, author)
   VALUE (NULL,
          'AGAINST THE GODS',
          'Mythical Abode Mountain, Cloud’s End Cliff, the most dangerous of Azure Cloud Continent’s four deadly areas. Cloud’s End Cliff’s base is known as the Grim Reaper’s Cemetery.',
          '/static/img/book_default.png',
          0,
-         2);
-INSERT INTO book (id_book, title, description, image_path, rating, author_id)
+         'Mars Gravity');
+INSERT INTO book (id_book, title, description, image_path, rating, author)
   VALUE (NULL,
          'LIBRARY OF HEAVEN''S PATH',
          'Traversing into another world, Zhang Xuan finds himself becoming an honorable teacher.
          Along with his transcension, a mysterious library appears in his mind.',
          '/static/img/book_default.png',
          0,
-         1);
-INSERT INTO book (id_book, title, description, image_path, rating, author_id)
+         'Heng Sao Tian Ya');
+INSERT INTO book (id_book, title, description, image_path, rating, author)
   VALUE (NULL,
          'RELEASE THAT WITCH',
          'Chen Yan travels between worlds, ending up becoming an honorable prince in a medieval fantasy world. Yet this world was not quite as simple as he thought. Witches with magical powers abound, and fearsome wars between churches and kingdoms rage throughout the land.',
          '/static/img/book_default.png',
          0,
          3);
-INSERT INTO book (id_book, title, description, image_path, rating, author_id)
+INSERT INTO book (id_book, title, description, image_path, rating, author)
   VALUE (NULL,
          'MARTIAL WORLD',
          'In the Realm of the Gods, countless legends fought over a mysterious cube. After the battle it disappeared into the void. Lin Ming stumbles upon this mystery object and begins his journey to become a hero of the land.',
          '/static/img/book_default.png',
          0,
-         5);
+         'Cocooned Cow');
 
 
 INSERT INTO chapter(id_chapter, title, content, book_id)
@@ -129,6 +114,16 @@ INSERT INTO chapter(id_chapter, title, content, book_id)
   VALUE (NULL, 'Chapter 2 - Peculiar Stone', '8k letters+ big content-Peculiar Stone', 5);
 INSERT INTO chapter(id_chapter, title, content, book_id)
   VALUE (NULL, 'Chapter 1 - Innate Divine Strength?', '8k letters+ big content-Innate Divine Strength?', 1);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 2 - Losing Control', '8k letters+ big content-Losing Control', 1);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 3 - Star Concealing Grass', '8k letters+ big content-Star Concealing Grass', 1);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 4 - The Red Haired Girl', '8k letters+ big content-The Red Haired Girl', 1);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 5 - Letter From the Xiao Sect', '8k letters+ big content-Letter From the Xiao Sect', 1);
+INSERT INTO chapter(id_chapter, title, content, book_id)
+  VALUE (NULL, 'Chapter 6 - Opening the Profound', '8k letters+ big content-Opening the Profound', 1);
 INSERT INTO chapter(id_chapter, title, content, book_id)
   VALUE (NULL, 'Chapter 1 - Sold', '8k letters+ big content-Sold', 2);
 INSERT INTO chapter(id_chapter, title, content, book_id)

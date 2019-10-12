@@ -20,8 +20,17 @@ public class BookDaoImpl implements BookDao {
     public Book findBookByChapter(Chapter chapter) {
         String sql = "SELECT * FROM book WHERE id_book = " + chapter.getBookId() + ";";
         try {
-            Book book = jdbcTemplate.queryForObject(sql, new BookMapper());
-            return book;
+            return jdbcTemplate.queryForObject(sql, new BookMapper());
+        }catch (EmptyResultDataAccessException ex){
+            return null;
+        }
+    }
+
+    @Override
+    public Book findBookByTitle(String title) {
+        String sql = "SELECT * FROM book WHERE LOWER(title) LIKE \"" + title + "\";";
+        try {
+            return jdbcTemplate.queryForObject(sql, new BookMapper());
         }catch (EmptyResultDataAccessException ex){
             return null;
         }

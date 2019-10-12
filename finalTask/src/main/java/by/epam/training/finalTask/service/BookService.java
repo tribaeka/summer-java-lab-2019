@@ -24,13 +24,18 @@ public class BookService {
         this.genreDao = genreDao;
     }
 
+    public Book getBook(String titleInUrl){
+        Book book = bookDao.findBookByTitle(titleInUrl.replaceAll("-", " "));
+        setChaptersAndGenres(book);
+        return book;
+    }
+
     public List<Book> latestBooks(){
         List<Chapter> latestChapters = chapterDao.findLatestUpdates();
         List<Book> books = new ArrayList<>();
         for (Chapter chapter : latestChapters){
             Book book = bookDao.findBookByChapter(chapter);
-            book.setChapters(chapterDao.findAllChaptersByBook(book));
-            book.setGenres(genreDao.findBooksGenres(book));
+            setChaptersAndGenres(book);
             if (!containsById(books, book)) books.add(book);
         }
         return books;
@@ -44,5 +49,10 @@ public class BookService {
             }
         }
         return isContains;
+    }
+
+    private void setChaptersAndGenres(Book book){
+        book.setChapters(chapterDao.findAllChaptersByBook(book));
+        book.setGenres(genreDao.findBooksGenres(book));
     }
 }
