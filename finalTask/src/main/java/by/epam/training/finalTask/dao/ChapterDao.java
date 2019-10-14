@@ -8,4 +8,5 @@ import java.util.List;
 public interface ChapterDao {
     List<Chapter> findLatestUpdates();
     List<Chapter> findAllChaptersByBook(Book book);
+    Chapter findChapterInBookByTitle(Book book, String title);
 }

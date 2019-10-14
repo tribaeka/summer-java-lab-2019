@@ -22,3 +22,12 @@
     color: black;
     background-color: #eeedee;
 }
+
+.chapter-content {
+    background: #e8e7e8;
+}
+
+.chapter-content p{
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}

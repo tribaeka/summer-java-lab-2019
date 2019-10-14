@@ -5,6 +5,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,5 +30,24 @@ public class Chapter {
 
     public String getFormatedUploadDate(){
         return uploadDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
+
+    public String titleToUrl(){
+        if (title.contains("-")){
+            return title.split("-")[0].toLowerCase().trim().replaceAll(" ", "-");
+        }else return title.toLowerCase().replaceAll(" ", "-");
+    }
+
+    public static String urlToTitle(String url){
+        String title = url.replaceAll("-", " ");
+        title = title.substring(0, 1).toUpperCase() + title.substring(1);
+        return title;
+    }
+
+    public List<String> contentToParagraphs(){
+        String contentWithFixedEcoding = content
+                .replaceAll("[”“]", "\"")
+                .replaceAll("’", "'");
+        return Arrays.asList(contentWithFixedEcoding.split("\\n"));
     }
 }

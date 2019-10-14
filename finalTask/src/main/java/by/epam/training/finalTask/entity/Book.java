@@ -39,4 +39,8 @@ public class Book {
     public String titleToUrl(){
         return title.toLowerCase().replaceAll(" ", "-");
     }
+
+    public static String urlToTitle(String url){
+        return url.replaceAll("-", " ");
+    }
 }

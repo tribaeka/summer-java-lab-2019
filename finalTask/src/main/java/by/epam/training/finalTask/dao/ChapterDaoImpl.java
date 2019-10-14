@@ -28,4 +28,12 @@ public class ChapterDaoImpl implements ChapterDao{
         String sql = "SELECT * FROM chapter WHERE book_id = " + book.getId() + ";";
         return jdbcTemplate.query(sql, new ChapterMapper());
     }
+
+    @Override
+    public Chapter findChapterInBookByTitle(Book book, String title) {
+        title = title + "%";
+        String sql = "SELECT * FROM chapter WHERE  book_id = " + book.getId() +
+                " AND title LIKE '"+ title +"';";
+        return jdbcTemplate.queryForObject(sql, new ChapterMapper());
+    }
 }

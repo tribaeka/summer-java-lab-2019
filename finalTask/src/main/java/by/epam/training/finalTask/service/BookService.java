@@ -25,7 +25,7 @@ public class BookService {
     }
 
     public Book getBook(String titleInUrl){
-        Book book = bookDao.findBookByTitle(titleInUrl.replaceAll("-", " "));
+        Book book = bookDao.findBookByTitle(Book.urlToTitle(titleInUrl));
         setChaptersAndGenres(book);
         return book;
     }
@@ -39,6 +39,10 @@ public class BookService {
             if (!containsById(books, book)) books.add(book);
         }
         return books;
+    }
+
+    public Chapter getChapter(String bookUrl, String chapterUrl){
+        return chapterDao.findChapterInBookByTitle(getBook(bookUrl), Chapter.urlToTitle(chapterUrl));
     }
 
     private boolean containsById(List<Book> books, Book book){
