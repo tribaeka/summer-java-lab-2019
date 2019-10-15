@@ -36,6 +36,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-8">
+            <h4>Hello,<br>${user.username}</h4>
+            <br><br>
+            <button type="button" class="btn btn-outline-danger mr-1">Bookmarks</button>
+            <!-- <button type="button" class="btn btn-outline-danger mr-1">History</button>
+            <button type="button" class="btn btn-outline-danger mr-1">Browsers</button> -->
+        </div>
         <div class="col-2">
             <div class="d-flex justify-content-end"><@a.logout/></div>
 

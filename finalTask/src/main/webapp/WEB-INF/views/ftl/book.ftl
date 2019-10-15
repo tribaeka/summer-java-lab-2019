@@ -15,10 +15,19 @@
                 </#list>
                 <br>
                 <#if user??>
-                <form action="/user/follow" method="post">
-                    <input type="hidden" name="bookId" value="${book.id}">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                    <button type="submit" class="btn btn-outline-danger my-2">Follow</button>
+                    <#if isFollowed>
+                        <form action="/user/unfollow" method="post">
+                            <input type="hidden" name="bookId" value="${book.id}">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                            <button type="submit" class="btn btn-outline-danger my-2">Unfollow</button>
+                        </form>
+                    <#else>
+                        <form action="/user/follow" method="post">
+                            <input type="hidden" name="bookId" value="${book.id}">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                            <button type="submit" class="btn btn-outline-danger my-2">Follow</button>
+                        </form>
+                    </#if>
                 </#if>
             </div>
 

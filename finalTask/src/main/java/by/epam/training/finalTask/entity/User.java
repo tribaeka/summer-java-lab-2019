@@ -51,4 +51,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isActive();
     }
+
+    public boolean isFollowedOnBook(Book book){
+        return followedBooks.stream()
+                .anyMatch(item -> item.getTitle().equals(book.getTitle()));
+    }
 }

@@ -1,5 +1,6 @@
 package by.epam.training.finalTask.controller;
 
+import by.epam.training.finalTask.entity.Book;
 import by.epam.training.finalTask.entity.User;
 import by.epam.training.finalTask.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ public class BookController {
     @GetMapping("{titleInUrl}")
     public String getBook(@AuthenticationPrincipal User user,
                           Model model, @PathVariable("titleInUrl") String titleInUrl){
+        Book book = bookService.getBook(titleInUrl);
+        model.addAttribute("book", book);
         if (user != null){
             model.addAttribute("user", user);
+            model.addAttribute("isFollowed", user.isFollowedOnBook(book));
         }
-        model.addAttribute("book", bookService.getBook(titleInUrl));
+
         return "book";
     }
 }

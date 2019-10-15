@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("profile")
     public String getProfile(Model model, @AuthenticationPrincipal User user){
-        List<Book> filledBookList = user.getFollowedBooks()
+        List<Book> filledBookList = userService.loadFollowedBooks(user).getFollowedBooks()
                 .stream()
                 .map(bookService::loadChaptersAndGenres)
                 .collect(Collectors.toList());
@@ -79,6 +79,11 @@ public class UserController {
     @PostMapping("follow")
     public String follow(@AuthenticationPrincipal User user, @RequestParam("bookId") int bookId){
         userService.follow(user, bookId);
-        return "redirect:/";//TODO on books page
+        return "redirect:/user/profile";
+    }
+    @PostMapping("unfollow")
+    public String unFollow(@AuthenticationPrincipal User user, @RequestParam("bookId") int bookId){
+        userService.unFollow(user, bookId);
+        return "redirect:/user/profile";
     }
 }

@@ -64,7 +64,11 @@ public class UserService implements UserDetailsService {
         readerCardDao.follow(user.getId(), bookId);
     }
 
-    private User loadFollowedBooks(User user){
+    public void unFollow(User user, int bookId){
+        readerCardDao.unFollow(user.getId(), bookId);
+    }
+
+    public User loadFollowedBooks(User user){
         user.setFollowedBooks(readerCardDao.getFollowedBooks(user.getId()));
         return user;
     }

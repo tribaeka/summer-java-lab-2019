@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ReaderCardDao {
     void follow(int userId, int bookId);
+    void unFollow(int userId, int bookId);
     List<Book> getFollowedBooks(int userId);
 }

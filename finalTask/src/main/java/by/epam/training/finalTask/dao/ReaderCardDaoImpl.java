@@ -23,7 +23,23 @@ public class ReaderCardDaoImpl implements ReaderCardDao {
     @Override
     public void follow(int userId, int bookId) {
         String sql = "INSERT INTO reader_card(user_id, book_id) VALUE (?,?);";
-        jdbcTemplate.update(new PreparedStatementCreator() {
+        jdbcTemplate.update(getFollowAndUnfollowStatement(sql, userId, bookId));
+    }
+
+    @Override
+    public List<Book> getFollowedBooks(int userId) {
+        String sql = "SELECT * FROM book JOIN reader_card rc ON book.id_book = rc.book_id AND user_id = " + userId + ";";
+        return jdbcTemplate.query(sql, new BookMapper());
+    }
+
+    @Override
+    public void unFollow(int userId, int bookId) {
+        String sql = "DELETE FROM reader_card WHERE user_id = ? AND book_id = ?";
+        jdbcTemplate.update(getFollowAndUnfollowStatement(sql, userId, bookId));
+    }
+
+    private PreparedStatementCreator getFollowAndUnfollowStatement(String sql, int userId, int bookId){
+        return new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(sql);
@@ -31,12 +47,6 @@ public class ReaderCardDaoImpl implements ReaderCardDao {
                 ps.setInt(2, bookId);
                 return ps;
             }
-        });
-    }
-
-    @Override
-    public List<Book> getFollowedBooks(int userId) {
-        String sql = "SELECT * FROM book JOIN reader_card rc ON book.id_book = rc.book_id AND user_id = " + userId + ";";
-        return jdbcTemplate.query(sql, new BookMapper());
+        };
     }
 }
