@@ -1,5 +1,6 @@
 package by.epam.training.finalTask.service;
 
+import by.epam.training.finalTask.dao.ReaderCardDao;
 import by.epam.training.finalTask.dao.UserDao;
 import by.epam.training.finalTask.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ public class UserService implements UserDetailsService {
     @Value("${default.profile.image}")
     private String defaultImage;
     private UserDao userDao;
+    private ReaderCardDao readerCardDao;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserDao userDao, PasswordEncoder passwordEncoder) {
+    public UserService(UserDao userDao, ReaderCardDao readerCardDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.readerCardDao = readerCardDao;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,8 +37,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("findUserByUsername");
-        return userDao.findByUsername(username);
+        return loadFollowedBooks(userDao.findByUsername(username));
     }
 
     public boolean addUser(User user){
@@ -56,5 +58,14 @@ public class UserService implements UserDetailsService {
     public void changeUsersPhoto(User user, String fileName){
         user.setImagePath("/img/" + fileName);
         userDao.updateUsersImagePath(user);
+    }
+
+    public void follow(User user, int bookId){
+        readerCardDao.follow(user.getId(), bookId);
+    }
+
+    private User loadFollowedBooks(User user){
+        user.setFollowedBooks(readerCardDao.getFollowedBooks(user.getId()));
+        return user;
     }
 }

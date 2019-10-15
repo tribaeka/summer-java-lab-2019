@@ -111,7 +111,7 @@ INSERT INTO book (id_book, title, description, image_path, rating, author)
 INSERT INTO chapter(id_chapter, title, content, book_id)
   VALUE (NULL, 'Chapter 1 - Magic Cube', '8k letters+ big content-Magic Cube', 5);
 INSERT INTO chapter(id_chapter, title, content, book_id)
-  VALUE (NULL, 'Chapter 2 - Peculiar Stone', '8k letters+ big content-Peculiar Stone', 5);
+  VALUE (NULL, 'Chapter 1 - Peculiar Stone', '8k letters+ big content-Peculiar Stone', 4);
 INSERT INTO chapter(id_chapter, title, content, book_id)
   VALUE (NULL, 'Chapter 1 - Innate Divine Strength?', '8k letters+ big content-Innate Divine Strength?', 1);
 INSERT INTO chapter(id_chapter, title, content, book_id)

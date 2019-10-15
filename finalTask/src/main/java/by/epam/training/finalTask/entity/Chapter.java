@@ -45,9 +45,9 @@ public class Chapter {
     }
 
     public List<String> contentToParagraphs(){
-        String contentWithFixedEcoding = content
+        String contentWithFixedEncoding = content
                 .replaceAll("[”“]", "\"")
                 .replaceAll("’", "'");
-        return Arrays.asList(contentWithFixedEcoding.split("\\n"));
+        return Arrays.asList(contentWithFixedEncoding.split("\\n"));
     }
 }

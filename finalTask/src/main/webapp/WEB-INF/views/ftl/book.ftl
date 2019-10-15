@@ -14,7 +14,12 @@
                     <button type="button" class="btn btn-outline-success btn-sm">${genre.title}</button>
                 </#list>
                 <br>
-                <button type="button" class="btn btn-outline-danger my-2">Follow</button>
+                <#if user??>
+                <form action="/user/follow" method="post">
+                    <input type="hidden" name="bookId" value="${book.id}">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-outline-danger my-2">Follow</button>
+                </#if>
             </div>
 
         </div>

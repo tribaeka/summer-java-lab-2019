@@ -4,8 +4,10 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +21,7 @@ public class User implements UserDetails {
     private String email;
     private String imagePath;
     private boolean active;
+    private List<Book> followedBooks = new ArrayList<>();
 
     public int isActiveInInt(){
         if (active) return 1;

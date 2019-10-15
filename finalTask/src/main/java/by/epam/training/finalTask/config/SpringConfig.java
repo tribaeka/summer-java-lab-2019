@@ -52,8 +52,13 @@ public class SpringConfig {
     }
 
     @Bean
+    public ReaderCardDao getReaderCardDao(){
+        return new ReaderCardDaoImpl(getJdbcTemplate());
+    }
+
+    @Bean
     public UserService getUserService(){
-        return new UserService(getUserDao(), getPasswordEncoder());
+        return new UserService(getUserDao(), getReaderCardDao(), getPasswordEncoder());
     }
 
     @Bean

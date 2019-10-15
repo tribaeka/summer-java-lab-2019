@@ -29,7 +29,6 @@ public class MainController {
         if (user != null){
             model.addAttribute("user", user);
         }
-        System.out.println("on main page with user = " + user);
         model.addAttribute("books", bookService.latestBooks());
 
         return "main";

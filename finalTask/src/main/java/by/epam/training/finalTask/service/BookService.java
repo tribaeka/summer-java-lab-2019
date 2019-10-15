@@ -26,7 +26,7 @@ public class BookService {
 
     public Book getBook(String titleInUrl){
         Book book = bookDao.findBookByTitle(Book.urlToTitle(titleInUrl));
-        setChaptersAndGenres(book);
+        loadChaptersAndGenres(book);
         return book;
     }
 
@@ -35,7 +35,7 @@ public class BookService {
         List<Book> books = new ArrayList<>();
         for (Chapter chapter : latestChapters){
             Book book = bookDao.findBookByChapter(chapter);
-            setChaptersAndGenres(book);
+            loadChaptersAndGenres(book);
             if (!containsById(books, book)) books.add(book);
         }
         return books;
@@ -55,8 +55,9 @@ public class BookService {
         return isContains;
     }
 
-    private void setChaptersAndGenres(Book book){
+    public Book loadChaptersAndGenres(Book book){
         book.setChapters(chapterDao.findAllChaptersByBook(book));
         book.setGenres(genreDao.findBooksGenres(book));
+        return book;
     }
 }

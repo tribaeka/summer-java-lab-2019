@@ -36,3 +36,31 @@
     </#list>
 </div>
 </#macro>
+
+<#macro smallBookList >
+    <div class="row mt-5 py-4 border border-secondary rounded">
+        <div class="col-12">
+            <#list user.followedBooks as book>
+            <div class="card w-80 mt-3 ml-3"">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="/book/${book.titleToUrl()}" class="card-title-link">
+                                ${book.title}
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <a href="/chapter/${book.titleToUrl()}/${book.getLastChapter().titleToUrl()}" class="btn btn-outline-secondary">
+                                ${book.getLastChapter().title}
+                            </a>
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">${book.getLastChapter().getTimeAfterUpdating()}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </#list>
+        </div>
+    </div>
+</#macro>

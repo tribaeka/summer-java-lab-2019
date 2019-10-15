@@ -1,6 +1,8 @@
 package by.epam.training.finalTask.controller;
 
+import by.epam.training.finalTask.entity.Book;
 import by.epam.training.finalTask.entity.User;
+import by.epam.training.finalTask.service.BookService;
 import by.epam.training.finalTask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -25,14 +29,21 @@ public class UserController {
     private String uploadPath;
 
     private final UserService userService;
+    private final BookService bookService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BookService bookService) {
         this.userService = userService;
+        this.bookService = bookService;
     }
 
     @GetMapping("profile")
     public String getProfile(Model model, @AuthenticationPrincipal User user){
+        List<Book> filledBookList = user.getFollowedBooks()
+                .stream()
+                .map(bookService::loadChaptersAndGenres)
+                .collect(Collectors.toList());
+        user.setFollowedBooks(filledBookList);
         model.addAttribute("user", user);
         return "profile";
     }
@@ -42,7 +53,8 @@ public class UserController {
         model.addAttribute("users", userService.findAll());
         return "usersList";
     }
-    @PostMapping("/changePhoto")
+
+    @PostMapping("changePhoto")
     public String changePhoto(@AuthenticationPrincipal User user,
                               @RequestParam("file") MultipartFile file) throws IOException {
 
@@ -62,5 +74,11 @@ public class UserController {
         }
 
         return "redirect:/user";
+    }
+
+    @PostMapping("follow")
+    public String follow(@AuthenticationPrincipal User user, @RequestParam("bookId") int bookId){
+        userService.follow(user, bookId);
+        return "redirect:/";//TODO on books page
     }
 }
