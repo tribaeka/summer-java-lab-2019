@@ -30,7 +30,7 @@ public class BookController {
         if (user != null){
             model.addAttribute("user", user);
             model.addAttribute("isFollowed", user.isFollowedOnBook(book));
-        }
+         }
 
         return "book";
     }
